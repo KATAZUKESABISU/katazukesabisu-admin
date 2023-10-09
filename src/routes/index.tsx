@@ -9,9 +9,9 @@ import SimpleLayout from '../components/layouts/SimpleLayout';
 import BlogPage from '../pages/BlogPage';
 import Page404 from '../pages/Page404';
 import LoginPage from '../pages/LoginPage';
+import DashboardAppPage from '../pages/DashboardApp';
 // import UserPage from './pages/UserPage';
 // import ProductsPage from './pages/ProductsPage';
-// import DashboardAppPage from './pages/DashboardAppPage';
 
 // const BlogPage = React.lazy(() => import('../pages/BlogPage'));
 // const About = React.lazy(() => import('../pages/About'));
@@ -60,8 +60,8 @@ export default function Router() {
     <Routes>
       <Route path="/" element={<DashboardLayout />}>
         <Route path="/" element={<BlogPage />} />
+        <Route path='/dashboard' element={<DashboardAppPage />} />
         {/* <Route path="/home" element={<Home />} />
-        <Route path={URL_MAPPING.ABOUT_US_PAGE_URL} element={<About />} />
         <Route path={URL_MAPPING.SERVICE_PAGE_URL} element={<Service />} />
         <Route path={URL_MAPPING.FLOW_PAGE_URL} element={<FlowPage />} />
         <Route path={URL_MAPPING.CONTACT_PAGE_URL} element={<Contact />} />
