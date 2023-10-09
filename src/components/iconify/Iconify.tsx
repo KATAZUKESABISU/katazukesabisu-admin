@@ -7,12 +7,13 @@ interface RootProps {
   width?: string | number;
   icon: string | IconifyIcon;
   sx?: object;
+  color?: string;
 }
 
-export default function Iconify({ width = 20, icon, sx }: RootProps) {
+export default function Iconify({ width = 20, icon, sx, color }: RootProps) {
   return (
     <React.Fragment>
-      <Box component={Icon} icon={icon} sx={{ width, height: width, ...sx }} />
+      <Box component={Icon} icon={icon} sx={{ color, width, height: width, ...sx }} />
     </React.Fragment>
   );
 }
