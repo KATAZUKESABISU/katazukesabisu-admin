@@ -7,6 +7,7 @@ import { Box } from '@mui/material';
 type SvgColorProps = {
   sx: object;
   src: string;
+  color?: string;
 };
 
 export default function SvgColor({ src, sx }: SvgColorProps): JSX.Element {
