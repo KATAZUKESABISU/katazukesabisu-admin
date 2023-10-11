@@ -5,7 +5,7 @@ import { StyledRootScrollbar, StyledScrollbar } from './styles';
 // ----------------------------------------------------------------------
 
 interface ScrollbarProps {
-  sx: object;
+  sx?: object;
   children: JSX.Element | JSX.Element[];
 }
 

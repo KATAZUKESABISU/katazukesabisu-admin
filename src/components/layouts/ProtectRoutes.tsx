@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
-//
+// Component
 import Header from './Header';
 import Nav from './Navigation';
-import useAuth from '../../hook/useAuth';
-import { URL_MAPPING } from '../../routes/urlMapping';
+import Loading from '../loading';
+
+// Redux
+import { useAppSelector } from 'src/store/hook';
+
+// Utils
+import { URL_MAPPING } from 'src/routes/urlMapping';
 
 // ----------------------------------------------------------------------
 
@@ -37,10 +42,14 @@ const Main = styled('div')(({ theme }) => ({
 export default function ProtectRoutes() {
   const [open, setOpen] = useState(false);
 
-  const { isAuthenticated } = useAuth();
   const { pathname } = useLocation();
+  const { token, initialized } = useAppSelector((state) => state.auth);
 
-  if (!isAuthenticated) {
+  if (!initialized) {
+    return <Loading />;
+  }
+
+  if (!token) {
     return <Navigate replace to={URL_MAPPING.LOGIN} state={{ from: pathname }} />;
   }
 

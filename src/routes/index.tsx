@@ -1,77 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 // layouts
-import DashboardLayout from '../components/layouts/DashboardLayout';
+import ProtectRoutes from 'src/components/layouts/ProtectRoutes';
 import SimpleLayout from '../components/layouts/SimpleLayout';
+
+// Redux
+import { loadToken } from 'src/store/auth';
+import { useAppDispatch } from 'src/store/hook';
 
 // Pages
 import BlogPage from '../pages/BlogPage';
+import BlogDetail from '../pages/BlogDetail';
 import Page404 from '../pages/Page404';
 import LoginPage from '../pages/LoginPage';
+import DashboardAppPage from '../pages/DashboardApp';
+import { URL_MAPPING } from './urlMapping';
 // import UserPage from './pages/UserPage';
 // import ProductsPage from './pages/ProductsPage';
-// import DashboardAppPage from './pages/DashboardAppPage';
-
-// const BlogPage = React.lazy(() => import('../pages/BlogPage'));
-// const About = React.lazy(() => import('../pages/About'));
-// const Service = React.lazy(() => import('../pages/Service'));
-// const Contact = React.lazy(() => import('../pages/Contact'));
-// const Page404 = React.lazy(() => import('../pages/Page404'));
-// const FlowPage = React.lazy(() => import('../pages/Flow'));
-// const MaintainPage = React.lazy(() => import('../pages/Maintain'));
-// const BlogDetail = React.lazy(() => import('../pages/BlogDetail'));
-// const ListBlog = React.lazy(() => import('../pages/ListBlog'));
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
-  // const routes = useRoutes([
-  //   {
-  //     path: '/dashboard',
-  //     element: <DashboardLayout />,
-  //     children: [
-  //       { element: <Navigate to="/dashboard/app" />, index: true },
-  //       { path: 'app', element: <DashboardAppPage /> },
-  //       { path: 'user', element: <UserPage /> },
-  //       { path: 'products', element: <ProductsPage /> },
-  //       { path: 'blog', element: <BlogPage /> },
-  //     ],
-  //   },
-  //   {
-  //     path: 'login',
-  //     element: <LoginPage />,
-  //   },
-  //   {
-  //     element: <SimpleLayout />,
-  //     children: [
-  //       { element: <Navigate to="/dashboard/app" />, index: true },
-  //       { path: '404', element: <Page404 /> },
-  //       { path: '*', element: <Navigate to="/404" /> },
-  //     ],
-  //   },
-  //   {
-  //     path: '*',
-  //     element: <Navigate to="/404" replace />,
-  //   },
-  // ]);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(loadToken());
+  }, []);
 
   return (
     <Routes>
-      <Route path="/" element={<DashboardLayout />}>
-        <Route path="/" element={<BlogPage />} />
+      <Route path={URL_MAPPING.ROOT} element={<ProtectRoutes />}>
+        <Route path={URL_MAPPING.BLOG} element={<BlogPage />} />
+        <Route path={URL_MAPPING.DASHBOARD} element={<DashboardAppPage />} />
+        <Route path={URL_MAPPING.BLOG_DETAIL} element={<BlogDetail />} />
         {/* <Route path="/home" element={<Home />} />
-        <Route path={URL_MAPPING.ABOUT_US_PAGE_URL} element={<About />} />
-        <Route path={URL_MAPPING.SERVICE_PAGE_URL} element={<Service />} />
         <Route path={URL_MAPPING.FLOW_PAGE_URL} element={<FlowPage />} />
         <Route path={URL_MAPPING.CONTACT_PAGE_URL} element={<Contact />} />
         <Route path="/blog-detail" element={<BlogDetail />} />
         <Route path="/contact" element={<Contact />} /> */}
       </Route>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/" element={<SimpleLayout />}>
-        <Route path="/not-found" element={<Page404 />} />
-        <Route path="/*" element={<Navigate to="/not-found" />} />
+      <Route path={URL_MAPPING.LOGIN} element={<LoginPage />} />
+      <Route path={URL_MAPPING.ROOT} element={<SimpleLayout />}>
+        <Route path={URL_MAPPING.PAGE_404} element={<Page404 />} />
+        <Route path="/*" element={<Navigate to={URL_MAPPING.PAGE_404} />} />
       </Route>
     </Routes>
   );

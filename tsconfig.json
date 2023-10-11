@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "target": "es5",
     "lib": [
       "dom",
@@ -18,12 +19,19 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    // "typeRoots": ["src/types"],
-    "types": ["node"],
-    "jsx": "react-jsx"
+    "jsxImportSource": "@emotion/react",
+    "typeRoots": ["node_modules/@types", "types"],
+    // "types": ["node"],
+    "jsx": "react-jsx",
+    "downlevelIteration": true,
+    // "paths": {
+    //   "@src/*": ["./src/*"],
+    //   "@api/*": ["./src/api/*"],
+    //   "@components/*": ["./src/components/*"],
+    //   "@customHooks/*": ["./src/hook/*"],
+    //   "@store/*": ["./src/store/*"],
+    // }
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src/**/*", "types/**/*"],
 
 }
