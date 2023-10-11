@@ -30,7 +30,7 @@ export default function DashboardAppPage() {
   return (
     <>
       <Helmet helmetData={helmetData}>
-        <title> Dashboard | 片付けサービス </title>
+        <title> Dashboard | かたづけサービス </title>
       </Helmet>
 
       <Container maxWidth="xl">

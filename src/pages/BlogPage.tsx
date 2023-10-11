@@ -27,7 +27,7 @@ export default function BlogPage() {
   return (
     <>
       <Helmet helmetData={helmetData}>
-        <title>Dashboard: Blog | 片付けサービス</title>
+        <title>Dashboard: Blog | かたづけサービス</title>
       </Helmet>
 
       <Container>

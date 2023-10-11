@@ -25,7 +25,7 @@ export default function Page404() {
   return (
     <>
       <Helmet helmetData={helmetData}>
-        <title> 404 Page Not Found | 片付けサービス </title>
+        <title> 404 Page Not Found | かたづけサービス </title>
       </Helmet>
 
       <Container>

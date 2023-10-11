@@ -19,7 +19,7 @@ export default function BlogDetail() {
   return (
     <>
       <Helmet helmetData={helmetData}>
-        <title>Dashboard: Blog Details | 片付けサービス</title>
+        <title>Dashboard: Blog Details | かたづけサービス</title>
       </Helmet>
 
       <Container>
@@ -32,9 +32,7 @@ export default function BlogDetail() {
           </Button>
         </Stack>
 
-        <Stack mb={5} direction="column" alignItems="end" justifyContent="space-between">
-
-        </Stack>
+        <Stack mb={3} direction="column" alignItems="end" justifyContent="space-between"></Stack>
       </Container>
     </>
   );

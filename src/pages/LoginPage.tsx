@@ -51,7 +51,7 @@ export default function LoginPage() {
   return (
     <React.Fragment>
       <Helmet helmetData={helmetData}>
-        <title> Login | 片付けサービス </title>
+        <title> Login | かたづけサービス </title>
       </Helmet>
 
       <StyledRoot>

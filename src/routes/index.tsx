@@ -32,7 +32,7 @@ export default function Router() {
       </Route>
       <Route path={URL_MAPPING.LOGIN} element={<LoginPage />} />
       <Route path={URL_MAPPING.ROOT} element={<SimpleLayout />}>
-        <Route path={URL_MAPPING.LOGIN} element={<Page404 />} />
+        <Route path={URL_MAPPING.PAGE_404} element={<Page404 />} />
         <Route path="/*" element={<Navigate to={URL_MAPPING.PAGE_404} />} />
       </Route>
     </Routes>
