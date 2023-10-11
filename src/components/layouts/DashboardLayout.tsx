@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 //
 import Header from './Header';
 import Nav from './Navigation';
+import useAuth from '../../hook/useAuth';
+import { URL_MAPPING } from '../../routes/urlMapping';
 
 // ----------------------------------------------------------------------
 
@@ -32,8 +34,15 @@ const Main = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function DashboardLayout() {
+export default function ProtectRoutes() {
   const [open, setOpen] = useState(false);
+
+  const { isAuthenticated } = useAuth();
+  const { pathname } = useLocation();
+
+  if (!isAuthenticated) {
+    return <Navigate replace to={URL_MAPPING.LOGIN} state={{ from: pathname }} />;
+  }
 
   return (
     <StyledRoot>

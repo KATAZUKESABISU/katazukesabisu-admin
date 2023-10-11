@@ -1,8 +1,8 @@
 import React, { useState, MouseEvent } from 'react';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover, useTheme } from '@mui/material';
 
-import account from '../../../_mock/account';
 import { Theme } from '../../../interface';
+import useAuth from '../../../hook/useAuth';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +26,7 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   // ----------- React Hook ------------------
   const theme: Theme = useTheme();
+  const { logout, user } = useAuth();
 
   // ----------- State declare ---------------
   const [open, setOpen] = useState<HTMLButtonElement | null>(null);
@@ -39,10 +40,15 @@ export default function AccountPopover() {
     setOpen(null);
   };
 
+  const handleLogout = () => {
+    setOpen(null);
+    logout();
+  }
+
   return (
     <React.Fragment>
       <IconButton onClick={handleOpen} sx={{ p: 0 }}>
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={user.photoURL} alt="photoURL" />
       </IconButton>
 
       <Popover
@@ -67,10 +73,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, pl: 2.5, pr: 1 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {user.displayName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {user.email}
           </Typography>
         </Box>
 
@@ -86,7 +92,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+        <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </Popover>
