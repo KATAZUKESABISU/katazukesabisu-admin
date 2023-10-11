@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 // layouts
-import ProtectRoutes from '../components/layouts/DashboardLayout';
+import ProtectRoutes from 'src/components/layouts/ProtectRoutes';
 import SimpleLayout from '../components/layouts/SimpleLayout';
+
+// Redux
+import { loadToken } from 'src/store/auth';
+import { useAppDispatch } from 'src/store/hook';
 
 // Pages
 import BlogPage from '../pages/BlogPage';
@@ -18,6 +22,12 @@ import { URL_MAPPING } from './urlMapping';
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(loadToken());
+  }, []);
+
   return (
     <Routes>
       <Route path={URL_MAPPING.ROOT} element={<ProtectRoutes />}>

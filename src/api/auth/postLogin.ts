@@ -7,6 +7,8 @@ export interface UserResquest {
 
 export interface UserInformation {
   id: string;
+  photoURL: string;
+  displayName: string;
   username: string;
   email: string;
   phone: string;

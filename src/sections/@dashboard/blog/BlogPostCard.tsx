@@ -66,8 +66,8 @@ export default function BlogPostCard({ post, index }: BlogPostCardProps) {
   const latestPost = index === 1 || index === 2;
 
   return (
-    <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
-      <Card sx={{ position: 'relative' }}>
+    <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3} flexGrow={1}>
+      <Card sx={{ position: 'relative', height: '100%' }}>
         <StyledCardMedia
           sx={{
             ...((latestPostLarge || latestPost) && {
@@ -102,10 +102,7 @@ export default function BlogPostCard({ post, index }: BlogPostCardProps) {
               // ...((latestPostLarge || latestPost) && { display: 'none' }),
             }}
           />
-          <StyledAvatar
-            alt={author.name}
-            src={author.avatarUrl}
-          />
+          <StyledAvatar alt={author.name} src={author.avatarUrl} />
 
           <StyledCover alt={title} src={cover} />
         </StyledCardMedia>

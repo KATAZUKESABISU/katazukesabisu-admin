@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { Helmet, HelmetData } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import { styled, useTheme } from '@mui/material/styles';
 import { Container, Typography, Divider, Stack, Button } from '@mui/material';
 // hooks
 import useResponsive from '../hook/useResponsive';
+import { useAppSelector } from 'src/store/hook';
 // components
 import { Logo } from '../components/logo';
 import { Iconify } from '../components/iconify';
 // sections
 import { LoginForm } from '../sections/auth/login';
 import { Theme } from '../interface';
+import { URL_MAPPING } from 'src/routes/urlMapping';
 
 // ----------------------------------------------------------------------
 
@@ -47,6 +50,15 @@ const helmetData = new HelmetData({});
 export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
   const theme: Theme = useTheme();
+  const navigate = useNavigate();
+  const { token } = useAppSelector((state) => state.auth);
+
+  useLayoutEffect(() => {
+    if (token) {
+      navigate(URL_MAPPING.ROOT);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   return (
     <React.Fragment>

@@ -1,8 +1,13 @@
 import React, { useState, MouseEvent } from 'react';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover, useTheme } from '@mui/material';
 
-import { Theme } from '../../../interface';
-import useAuth from '../../../hook/useAuth';
+import { Theme } from 'src/interface';
+
+// Redux
+import { logout } from 'src/store/auth';
+import { useAppSelector, useAppDispatch } from 'src/store/hook';
+import { openSnackbar } from 'src/store/snackbar';
+import { AbstractResponse } from 'src/api/utils';
 
 // ----------------------------------------------------------------------
 
@@ -26,7 +31,8 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   // ----------- React Hook ------------------
   const theme: Theme = useTheme();
-  const { logout, user } = useAuth();
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
 
   // ----------- State declare ---------------
   const [open, setOpen] = useState<HTMLButtonElement | null>(null);
@@ -42,13 +48,20 @@ export default function AccountPopover() {
 
   const handleLogout = () => {
     setOpen(null);
-    logout();
-  }
+    (async () => {
+      try {
+        await dispatch(logout(user.id));
+        location.reload();
+      } catch (e) {
+        dispatch(openSnackbar({ message: (e as AbstractResponse).message, severity: 'error' }));
+      }
+    })();
+  };
 
   return (
     <React.Fragment>
       <IconButton onClick={handleOpen} sx={{ p: 0 }}>
-        <Avatar src={user.photoURL} alt="photoURL" />
+        <Avatar src={user.photoURL || ''} alt="photoURL" />
       </IconButton>
 
       <Popover
@@ -73,7 +86,7 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, pl: 2.5, pr: 1 }}>
           <Typography variant="subtitle2" noWrap>
-            {user.displayName}
+            {user.displayName || ''}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {user.email}

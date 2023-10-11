@@ -114,7 +114,7 @@ export interface HelmetProps {
   content: string;
 }
 export interface AbstractResponse {
-  statusCode?: number;
-  message?: string;
+  statusCode: number;
+  message: string;
   seoHelmet?: HelmetProps[];
 }
