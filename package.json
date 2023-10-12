@@ -45,6 +45,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "deploy": "firebase deploy --only hosting:admin-katazukesabisu",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
