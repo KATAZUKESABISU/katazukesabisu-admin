@@ -6,9 +6,12 @@ import { styled } from '@mui/material/styles';
 import Header from './Header';
 import Nav from './Navigation';
 import Loading from '../loading';
+
 // Redux
-import { URL_MAPPING } from 'src/routes/urlMapping';
 import { useAppSelector } from 'src/store/hook';
+
+// Utils
+import { URL_MAPPING } from 'src/routes/urlMapping';
 
 // ----------------------------------------------------------------------
 
@@ -39,10 +42,10 @@ const Main = styled('div')(({ theme }) => ({
 export default function ProtectRoutes() {
   const [open, setOpen] = useState(false);
 
-  const { initialized, token } = useAppSelector((state) => state.auth);
   const { pathname } = useLocation();
+  const { token, initialized } = useAppSelector((state) => state.auth);
 
-  if (initialized) {
+  if (!initialized) {
     return <Loading />;
   }
 
