@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, MouseEvent, useRef } from 'react';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover, useTheme } from '@mui/material';
 
 import { Theme } from 'src/interface';
@@ -8,6 +8,7 @@ import { logout } from 'src/store/auth';
 import { useAppSelector, useAppDispatch } from 'src/store/hook';
 import { openSnackbar } from 'src/store/snackbar';
 import { AbstractResponse } from 'src/api/utils';
+import Loading from 'src/components/loading';
 
 // ----------------------------------------------------------------------
 
@@ -36,6 +37,7 @@ export default function AccountPopover() {
 
   // ----------- State declare ---------------
   const [open, setOpen] = useState<HTMLButtonElement | null>(null);
+  const [loading, setLoading] = useState(false);
 
   // ----------- Handle change state ---------------
   const handleOpen = (event: MouseEvent<HTMLButtonElement>) => {
@@ -46,22 +48,30 @@ export default function AccountPopover() {
     setOpen(null);
   };
 
-  const handleLogout = () => {
-    setOpen(null);
-    (async () => {
-      try {
-        await dispatch(logout(user.id));
-        location.reload();
-      } catch (e) {
-        dispatch(openSnackbar({ message: (e as AbstractResponse).message, severity: 'error' }));
+  const handleLogout = async () => {
+    try {
+      if (loading) {
+        return;
       }
-    })();
+
+      setLoading(true);
+      setOpen(null);
+      const { type } = await dispatch(logout(user.id));
+
+      if (type.endsWith('fulfilled')) {
+        location.reload();
+      }
+    } catch (e) {
+      dispatch(openSnackbar({ message: (e as AbstractResponse).message, severity: 'error' }));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <React.Fragment>
       <IconButton onClick={handleOpen} sx={{ p: 0 }}>
-        <Avatar src={user.photoURL || ''} alt="photoURL" />
+        <Avatar src={user.photoUrl || ''} alt="photoUrl" />
       </IconButton>
 
       <Popover

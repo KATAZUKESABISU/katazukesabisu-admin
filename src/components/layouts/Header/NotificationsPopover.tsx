@@ -118,7 +118,7 @@ export default function NotificationsPopover() {
           <List
             disablePadding
             subheader={
-              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
+              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'typography.overline' }}>
                 New
               </ListSubheader>
             }
@@ -131,7 +131,7 @@ export default function NotificationsPopover() {
           <List
             disablePadding
             subheader={
-              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
+              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'typography.overline' }}>
                 Before that
               </ListSubheader>
             }
