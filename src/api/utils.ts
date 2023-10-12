@@ -45,7 +45,14 @@ async function request<T>(
     fetchOption.body = body;
   }
 
-  const response = await fetch(url, { ...fetchOption, headers });
+  let response = await fetch(url, { ...fetchOption, headers });
+
+  if (response.status === 401) {
+    const resp = await refreshToken();
+    headers['Authorization'] = resp.data.token;
+  }
+
+  response = await fetch(url, { ...fetchOption, headers });
 
   const disposition = response.headers.get('Content-Disposition');
   if (disposition && disposition.indexOf('attachment') !== -1) {
@@ -78,6 +85,38 @@ async function request<T>(
   const json = await response.json();
   return json;
 }
+
+const refreshToken = async () => {
+  const refreshToken = window.localStorage.getItem('refreshToken');
+  const user = window.localStorage.getItem('user');
+
+  if (user === null || refreshToken === null) {
+    throw { message: 'Bad request' };
+  }
+
+  const requestBody = {
+    refreshToken,
+    user: JSON.parse(atob(user)),
+  };
+
+  const response = await fetch(SERVER_BASE_URL + '/api/token', {
+    method: 'POST',
+    redirect: 'follow',
+    headers: {
+      'Content-Type': 'application/json',
+      ...Object.fromEntries(globalHeader.entries()),
+    },
+    body: JSON.stringify(requestBody),
+  });
+
+  const resp = await response.json();
+
+  if (resp.statusCode !== 200) {
+    throw resp;
+  }
+
+  return resp;
+};
 
 export async function post<T>(
   path: string,

@@ -78,7 +78,7 @@ export default function LanguagePopover() {
             '& .MuiMenuItem-root': {
               pl: 2.5,
               pr: 2,
-              typography: 'body2',
+              typography: 'typography.body2',
             },
           },
         }}

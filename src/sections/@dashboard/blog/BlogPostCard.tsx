@@ -117,7 +117,7 @@ export default function BlogPostCard({ post, index }: BlogPostCardProps) {
             variant="subtitle2"
             underline="hover"
             sx={{
-              ...(latestPostLarge && { typography: 'h5', height: 60 }),
+              ...(latestPostLarge && { typography: 'typography.h5', height: 60 }),
             }}
           >
             {title}

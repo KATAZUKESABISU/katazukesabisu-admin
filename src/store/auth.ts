@@ -67,7 +67,7 @@ const authSlice = createSlice({
       state.token = token || '';
       state.refreshToken = refreshToken || '';
       state.initialized = true;
-      addGlobalHeader('Authorization', token || '');
+      addGlobalHeader('Authorization', 'Bearer ' + token || '');
     },
   },
   extraReducers: (builder) => {

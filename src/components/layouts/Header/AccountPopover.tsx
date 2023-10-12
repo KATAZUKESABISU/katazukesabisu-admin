@@ -78,7 +78,7 @@ export default function AccountPopover() {
             width: 220,
             boxShadow: theme.customShadows.dropdown,
             '& .MuiMenuItem-root': {
-              typography: 'body2',
+              typography: 'typography.body2',
               borderRadius: 0.75,
             },
           },

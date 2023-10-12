@@ -32,7 +32,7 @@ export default function Snackbar() {
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
       <MuiSnackbar open={isDisplay} autoHideDuration={6000} TransitionComponent={TransitionLeft} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%', typography: 'body2' }}>
+        <Alert onClose={handleClose} severity={severity} sx={{ width: '100%', typography: 'typography.body2' }}>
           {message}
         </Alert>
       </MuiSnackbar>

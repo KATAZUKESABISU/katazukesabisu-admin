@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet,  HelmetData } from 'react-helmet-async';
+import { Helmet, HelmetData } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 // @mui
 import { useTheme } from '@mui/material/styles';
@@ -22,7 +22,6 @@ import {
 // ----------------------------------------------------------------------
 
 const helmetData = new HelmetData({});
-
 
 export default function DashboardAppPage() {
   const theme = useTheme();
@@ -149,9 +148,9 @@ export default function DashboardAppPage() {
             <AppNewsUpdate
               title="News Update"
               list={[...Array(5)].map((_, index) => ({
-                id: faker.datatype.uuid(),
-                title: faker.name.jobTitle(),
-                description: faker.name.jobTitle(),
+                id: faker.string.uuid(),
+                title: faker.person.jobTitle(),
+                description: faker.person.jobTitle(),
                 image: `/assets/images/covers/cover_${index + 1}.jpg`,
                 postedAt: faker.date.recent(),
               }))}
@@ -162,7 +161,7 @@ export default function DashboardAppPage() {
             <AppOrderTimeline
               title="Order Timeline"
               list={[...Array(5)].map((_, index) => ({
-                id: faker.datatype.uuid(),
+                id: faker.string.uuid(),
                 title: [
                   '1983, orders, $4220',
                   '12 Invoices have been paid',
