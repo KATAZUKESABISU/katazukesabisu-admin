@@ -99,7 +99,7 @@ export default function ContactPopover() {
 // ----------------------------------------------------------------------
 
 interface ContactDetail {
-  photoURL: string;
+  photoUrl: string;
   displayName: string;
   activeStatus: OnlineStatus;
   lastActive?: Date;
@@ -120,7 +120,7 @@ function ContactItem({ contact }: ContactItemProps): JSX.Element {
       }}
     >
       <ListItemAvatar>
-        <Avatar sx={{ bgcolor: 'background.neutral' }} src={contact.photoURL} />
+        <Avatar sx={{ bgcolor: 'background.neutral' }} src={contact.photoUrl} />
       </ListItemAvatar>
       <ListItemText
         primary={contact.displayName}

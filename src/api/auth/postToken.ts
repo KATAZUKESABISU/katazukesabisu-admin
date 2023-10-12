@@ -1,19 +1,55 @@
-import { AbstractResponse, post } from '../utils';
-import { UserInformation } from '.';
+import message from 'src/lang/en.json';
 
-export interface RefreshTokenRequest {
-  user: UserInformation;
-  refreshToken: string;
-}
+const SERVER_BASE_URL = process.env.REACT_APP_API_SERVER_BASE_URL || '';
 
-const postToken = async (requestBody: RefreshTokenRequest) => {
-  const response = await post<AbstractResponse>('/api/token', requestBody);
+const refreshToken = async (globalHeader: Map<string, string>) => {
+  const remember = window.localStorage.getItem('remember');
 
-  if (response.statusCode !== 200) {
-    throw response;
+  let refreshToken: string | null;
+  let user: string | null;
+
+  if (remember) {
+    refreshToken = localStorage.getItem('refreshToken');
+    user = localStorage.getItem('user');
+  } else {
+    refreshToken = sessionStorage.getItem('refreshToken');
+    user = sessionStorage.getItem('user');
   }
 
-  return response;
+  if (user === null || refreshToken === null) {
+    localStorage.clear();
+    sessionStorage.clear();
+    throw { message: message['error.reloadPage'] };
+  }
+
+  const requestBody = {
+    refreshToken,
+    userId: JSON.parse(atob(user)).id,
+  };
+
+  const response = await fetch(SERVER_BASE_URL + '/api/token', {
+    method: 'POST',
+    redirect: 'follow',
+    headers: {
+      'Content-Type': 'application/json',
+      ...Object.fromEntries(globalHeader.entries()),
+    },
+    body: JSON.stringify(requestBody),
+  });
+
+  const resp = await response.json();
+
+  if (resp.statusCode === 404) {
+    localStorage.clear();
+    sessionStorage.clear();
+    throw { message: message['error.reloadPage'] };
+  }
+
+  if (resp.statusCode !== 200) {
+    throw resp;
+  }
+
+  return resp;
 };
 
-export default postToken;
+export default refreshToken;

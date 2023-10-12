@@ -6,3 +6,8 @@ export enum OnlineStatus {
   DoNotDisturb,
   Invisible,
 }
+
+export enum CheckboxValue {
+  Uncheck = 0,
+  Checked = 1,
+}

@@ -2,16 +2,22 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { addGlobalHeader, removeGlobalHeader } from 'src/api/utils';
 import { UserResquest, DataLogin, postLogin, postLogout } from 'src/api/auth';
 
-export interface SessionState extends DataLogin {
+export interface AuthState extends DataLogin {
   initialized: boolean;
+  remember: string;
 }
 
-const initialState: SessionState = {
+interface UserLoginProps extends UserResquest {
+  remember: string;
+}
+
+const initialState: AuthState = {
   initialized: false,
+  remember: '',
   user: {
     id: '',
     displayName: '',
-    photoURL: '',
+    photoUrl: '',
     email: '',
     username: '',
     phone: '',
@@ -23,12 +29,12 @@ const initialState: SessionState = {
 
 export const login = createAsyncThunk(
   'auth/login',
-  async ({ username, password }: UserResquest, { rejectWithValue }) => {
+  async ({ username, password, remember }: UserLoginProps, { rejectWithValue }) => {
     try {
       const response = await postLogin({ username, password });
 
       if (response.statusCode === 200) {
-        return response.data;
+        return { ...response.data, remember };
       }
 
       return rejectWithValue(response);
@@ -56,9 +62,20 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     loadToken(state) {
-      const refreshToken = window.localStorage.getItem('refreshToken');
-      const token = window.localStorage.getItem('token');
-      const user = window.localStorage.getItem('user');
+      let refreshToken: string | null;
+      let token: string | null;
+      let user: string | null;
+      const remember = localStorage.getItem('remember');
+
+      if (remember) {
+        refreshToken = localStorage.getItem('refreshToken');
+        token = localStorage.getItem('token');
+        user = localStorage.getItem('user');
+      } else {
+        refreshToken = sessionStorage.getItem('refreshToken');
+        token = sessionStorage.getItem('token');
+        user = sessionStorage.getItem('user');
+      }
 
       if (user) {
         state.user = JSON.parse(atob(user));
@@ -78,11 +95,21 @@ const authSlice = createSlice({
       state.user = loginUser;
       state.token = payload.token;
       state.refreshToken = payload.refreshToken;
+      state.remember = payload.remember;
       addGlobalHeader('Authorization', 'Bearer ' + payload.token);
 
-      window.localStorage.setItem('refreshToken', payload.refreshToken);
-      window.localStorage.setItem('token', payload.token);
-      window.localStorage.setItem('user', btoa(JSON.stringify(loginUser)));
+      localStorage.setItem('remember', payload.remember);
+
+      if (payload.remember) {
+        localStorage.setItem('refreshToken', payload.refreshToken);
+        localStorage.setItem('token', payload.token);
+        localStorage.setItem('user', btoa(JSON.stringify(loginUser)));
+        return;
+      }
+
+      sessionStorage.setItem('refreshToken', payload.refreshToken);
+      sessionStorage.setItem('token', payload.token);
+      sessionStorage.setItem('user', btoa(JSON.stringify(loginUser)));
     });
     builder.addCase(login.rejected, (state, action) => {
       throw action.payload;
@@ -90,10 +117,20 @@ const authSlice = createSlice({
     builder.addCase(logout.fulfilled, () => {
       removeGlobalHeader('Authorization');
 
-      window.localStorage.removeItem('refreshToken');
-      window.localStorage.removeItem('token');
-      window.localStorage.removeItem('user');
-      window.localStorage.clear();
+      const remember = localStorage.getItem('remember');
+
+      if (remember) {
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.clear();
+        return;
+      }
+
+      sessionStorage.removeItem('refreshToken');
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('user');
+      sessionStorage.clear();
     });
     builder.addCase(logout.rejected, (state, action) => {
       throw action.payload;
