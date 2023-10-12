@@ -1,4 +1,5 @@
 {
+  "notice.maintain": "This feature is under maintenance. Please try again later.",
   "error.reloadPage": "We're sorry, an error has occurred. Please reload this page and try again.",
   "validate.required": "Please fill out this field."
 }

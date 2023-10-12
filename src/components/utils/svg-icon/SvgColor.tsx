@@ -5,12 +5,12 @@ import { Box } from '@mui/material';
 // ----------------------------------------------------------------------
 
 type SvgColorProps = {
-  sx: object;
+  sx?: object;
   src: string;
   color?: string;
 };
 
-export default function SvgColor({ src, sx }: SvgColorProps): JSX.Element {
+export default function SvgColor({ src, sx = {} }: SvgColorProps): JSX.Element {
   return (
     <React.Fragment>
       <Box

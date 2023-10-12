@@ -6,7 +6,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import { Container, Typography, Divider, Stack, Button } from '@mui/material';
 // hooks
 import useResponsive from '../hook/useResponsive';
-import { useAppSelector } from 'src/store/hook';
+import { useAppSelector, useAppDispatch } from 'src/store/hook';
 // components
 import { Logo } from '../components/logo';
 import { Iconify } from '../components/iconify';
@@ -14,6 +14,9 @@ import { Iconify } from '../components/iconify';
 import { LoginForm } from '../sections/auth/login';
 import { Theme } from '../interface';
 import { URL_MAPPING } from 'src/routes/urlMapping';
+// Message
+import message from 'src/lang/en.json';
+import { openSnackbar } from 'src/store/snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -50,8 +53,9 @@ const helmetData = new HelmetData({});
 export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
   const theme: Theme = useTheme();
-  const navigate = useNavigate();
   const { token } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   useLayoutEffect(() => {
     if (token) {
@@ -59,6 +63,10 @@ export default function LoginPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
+
+  const showMaintainMessage = () => {
+    dispatch(openSnackbar({ message: message['notice.maintain'], severity: 'warning' }));
+  };
 
   return (
     <React.Fragment>
@@ -91,15 +99,15 @@ export default function LoginPage() {
             </Typography>
 
             <Stack direction="row" spacing={2}>
-              <Button fullWidth size="large" color="inherit" variant="outlined">
+              <Button fullWidth size="large" color="inherit" variant="outlined" onClick={showMaintainMessage}>
                 <Iconify icon="eva:google-fill" color="#DF3E30" width={22} />
               </Button>
 
-              <Button fullWidth size="large" color="inherit" variant="outlined">
+              <Button fullWidth size="large" color="inherit" variant="outlined" onClick={showMaintainMessage}>
                 <Iconify icon="eva:facebook-fill" color="#1877F2" width={22} />
               </Button>
 
-              <Button fullWidth size="large" color="inherit" variant="outlined">
+              <Button fullWidth size="large" color="inherit" variant="outlined" onClick={showMaintainMessage}>
                 <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={22} />
               </Button>
             </Stack>

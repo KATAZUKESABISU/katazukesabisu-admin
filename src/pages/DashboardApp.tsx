@@ -96,6 +96,7 @@ export default function DashboardAppPage() {
 
           <Grid item xs={12} md={6} lg={4}>
             <AppCurrentVisits
+              sx={{ height: '100%' }}
               title="Current Visits"
               chartData={[
                 { label: 'America', value: 4344 },
@@ -160,7 +161,7 @@ export default function DashboardAppPage() {
           <Grid item xs={12} md={6} lg={4}>
             <AppOrderTimeline
               title="Order Timeline"
-              list={[...Array(5)].map((_, index) => ({
+              list={[...Array(3)].map((_, index) => ({
                 id: faker.string.uuid(),
                 title: [
                   '1983, orders, $4220',
@@ -175,7 +176,7 @@ export default function DashboardAppPage() {
             />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppTrafficBySite
               title="Traffic by Site"
               list={[
@@ -201,10 +202,11 @@ export default function DashboardAppPage() {
                 },
               ]}
             />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12} md={6} lg={8}>
             <AppTasks
+              sx={{ height: '100%' }}
               title="Tasks"
               list={[
                 { id: '1', label: 'Create FireStone Logo' },
