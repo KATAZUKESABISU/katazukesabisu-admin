@@ -1,12 +1,19 @@
 import React from 'react';
-import { CircularProgress, Box, styled } from '@mui/material';
+import { CircularProgress, Box, styled, alpha, Theme } from '@mui/material';
 
-const StyledLoading = styled('div')({
+import { RootState } from 'src/store';
+import { useAppSelector } from 'src/store/hook';
+
+const StyledLoading = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  top: '0',
+  left: '0',
   width: '100%',
   height: '100%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  backgroundColor: alpha('#000', 0.2),
   '& img': {
     width: 'auto',
     height: '25px',
@@ -17,7 +24,7 @@ const StyledLoading = styled('div')({
     right: 0,
     top: 'calc(50% - 25px)',
   },
-});
+}));
 
 const Loading = () => {
   return (

@@ -16,7 +16,7 @@ import { Theme } from '../interface';
 import { URL_MAPPING } from 'src/routes/urlMapping';
 // Message
 import message from 'src/lang/en.json';
-import { openSnackbar } from 'src/store/snackbar';
+import { openSnackbar } from 'src/store/ui';
 
 // ----------------------------------------------------------------------
 

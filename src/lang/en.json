@@ -1,5 +1,7 @@
 {
   "notice.maintain": "This feature is under maintenance. Please try again later.",
+  "notice.apiFetch.noData": "The current query has no posts. Please make sure you have published items matching your query",
+  "error.blog.notFound": "The post you were looking for does not exist.",
   "error.reloadPage": "We're sorry, an error has occurred. Please reload this page and try again.",
   "validate.required": "Please fill out this field."
 }

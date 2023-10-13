@@ -1,4 +1,4 @@
-import React, { FormEvent, useRef, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FieldValues, FormProvider, useForm, Resolver } from 'react-hook-form';
 
@@ -19,7 +19,7 @@ import { useAppDispatch } from 'src/store/hook';
 import { login } from 'src/store/auth';
 
 import { URL_MAPPING } from 'src/routes/urlMapping';
-import { openSnackbar } from 'src/store/snackbar';
+import { openSnackbar } from 'src/store/ui';
 import { AbstractResponse } from 'src/api/utils';
 import { CheckboxValue } from 'src/utils/constants';
 

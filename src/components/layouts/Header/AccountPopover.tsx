@@ -6,7 +6,7 @@ import { Theme } from 'src/interface';
 // Redux
 import { logout } from 'src/store/auth';
 import { useAppSelector, useAppDispatch } from 'src/store/hook';
-import { openSnackbar } from 'src/store/snackbar';
+import { openSnackbar } from 'src/store/ui';
 import { AbstractResponse } from 'src/api/utils';
 import Loading from 'src/components/loading';
 

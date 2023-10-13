@@ -12,6 +12,7 @@ import { useAppSelector } from 'src/store/hook';
 
 // Utils
 import { URL_MAPPING } from 'src/routes/urlMapping';
+import { RootState } from 'src/store';
 
 // ----------------------------------------------------------------------
 
@@ -43,7 +44,8 @@ export default function ProtectRoutes() {
   const [open, setOpen] = useState(false);
 
   const { pathname } = useLocation();
-  const { token, initialized } = useAppSelector((state) => state.auth);
+  const { token, initialized } = useAppSelector((state: RootState) => state.auth);
+  const { isLoading } = useAppSelector((state: RootState) => state.ui.loading);
 
   if (!initialized) {
     return <Loading />;
@@ -55,11 +57,31 @@ export default function ProtectRoutes() {
 
   return (
     <StyledRoot>
-      <Header onOpenNav={() => setOpen(true)} />
+      <Header
+        sx={{
+          ...(isLoading && {
+            paddingRight: '17px',
+          }),
+        }}
+        onOpenNav={() => setOpen(true)}
+      />
       <Nav openNav={open} onCloseNav={() => setOpen(false)} />
 
-      <Main>
+      <Main
+        sx={(theme) => ({
+          ...(isLoading && {
+            position: 'relative',
+            overflow: 'hidden',
+            height: '100vh',
+            paddingRight: '17px',
+            [theme.breakpoints.up('lg')]: {
+              paddingRight: `calc(17px + ${theme.spacing(2)})`,
+            },
+          }),
+        })}
+      >
         <Outlet />
+        {isLoading && <Loading />}
       </Main>
     </StyledRoot>
   );

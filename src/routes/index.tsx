@@ -12,6 +12,7 @@ import { useAppDispatch } from 'src/store/hook';
 // Pages
 import BlogPage from '../pages/BlogPage';
 import BlogDetail from '../pages/BlogDetail';
+import BlogEditPage from '../pages/BlogEditPage';
 import Page404 from '../pages/Page404';
 import LoginPage from '../pages/LoginPage';
 import DashboardAppPage from '../pages/DashboardApp';
@@ -33,8 +34,8 @@ export default function Router() {
       <Route path={URL_MAPPING.ROOT} element={<ProtectRoutes />}>
         <Route path={URL_MAPPING.BLOG} element={<BlogPage />} />
         <Route path={URL_MAPPING.BLOG_DETAIL + '/:id'} element={<BlogDetail />} />
+        <Route path={URL_MAPPING.BLOG_EDIT + '/:id'} element={<BlogEditPage />} />
         <Route path={URL_MAPPING.BLOG_CREATE} element={<BlogDetail />} />
-        <Route path={URL_MAPPING.BLOG_EDIT} element={<BlogDetail />} />
         <Route path={URL_MAPPING.DASHBOARD} element={<DashboardAppPage />} />
         {/* <Route path="/home" element={<Home />} />
         <Route path={URL_MAPPING.FLOW_PAGE_URL} element={<FlowPage />} />

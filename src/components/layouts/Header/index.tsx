@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
+import { Box, Stack, AppBar, Toolbar, IconButton, AppBarProps } from '@mui/material';
 
 import { bgBlur } from '../../../utils/cssStyles';
 
@@ -13,7 +13,7 @@ import ContactPopover from './ContactPopover';
 
 // ----------------------------------------------------------------------
 
-interface HeaderProps {
+interface HeaderProps extends AppBarProps {
   onOpenNav: () => void;
 }
 
@@ -41,9 +41,9 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Header({ onOpenNav }: HeaderProps) {
+export default function Header({ onOpenNav, ...other }: HeaderProps) {
   return (
-    <StyledRoot>
+    <StyledRoot {...other}>
       <StyledToolbar>
         <IconButton
           onClick={onOpenNav}

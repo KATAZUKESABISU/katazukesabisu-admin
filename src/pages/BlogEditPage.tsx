@@ -1,9 +1,8 @@
 import React from 'react';
 import { Helmet, HelmetData } from 'react-helmet-async';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-// Markdown
-import Markdown from 'markdown-to-jsx';
+import { FormProvider, useForm } from 'react-hook-form';
 
 // @mui
 import { styled, alpha, Theme } from '@mui/material/styles';
@@ -21,6 +20,7 @@ import { RootState } from 'src/store';
 import { URL_MAPPING } from 'src/routes/urlMapping';
 import { blogDetail } from 'src/_mock/blog-details';
 import components from 'src/components/editor/OverrideHTML';
+import MarkdownEditor from 'src/components/editor/MarkdownEditor';
 
 // ----------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ const helmetData = new HelmetData({});
 const breadcrumbs: BreadcrumbItem[] = [
   { name: 'Dashboard', href: URL_MAPPING.DASHBOARD },
   { name: 'Blog', href: URL_MAPPING.BLOG },
-  { name: 'Blog Details', href: '' },
+  { name: 'Edit', href: '' },
 ];
 
 const StyledCardMedia = styled('div')({
@@ -67,39 +67,44 @@ const StyledCover = styled('img')({
   position: 'absolute',
 });
 
-const StyledPostInfo = styled('div')(({ theme }) => ({
-  position: 'absolute',
-  top: 0,
-  left: 0,
+const StyledButtonContainer = styled('div')(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'end',
+  alignItems: 'center',
   width: '100%',
-  height: '100%',
-  padding: theme.spacing(5),
-  backgroundColor: alpha(theme.palette.grey[900], 0.45),
 }));
 
 // ----------------------------------------------------------------------
 
+interface FormData {
+  title: string;
+  content: string;
+  cover: string;
+}
+
 export default function BlogDetail() {
   const { user } = useAppSelector((state: RootState) => state.auth);
   const { id } = useParams();
-  const navigate = useNavigate();
 
-  const handleEditButtonClick = () => {
-    navigate(URL_MAPPING.BLOG_EDIT + '/' + id);
-  };
+  const formConfig = useForm<FormData>({
+    defaultValues: {
+      title: blogDetail.title,
+      content: blogDetail.content,
+      cover: blogDetail.image,
+    },
+  });
+
+  const { getValues } = formConfig;
 
   return (
-    <>
+    <FormProvider {...formConfig}>
       <Helmet helmetData={helmetData}>
-        <title>Dashboard: Blog Details | かたづけサービス</title>
+        <title>Dashboard: Edit a blog post | かたづけサービス</title>
       </Helmet>
 
       <Container maxWidth="xl">
         <Stack direction="row" alignItems="center" justifyItems="center" justifyContent="space-between" mb={1}>
-          <Typography variant="h4">Blog Details</Typography>
-          <Button onClick={handleEditButtonClick} variant="contained" startIcon={<Iconify icon="bxs:edit" />}>
-            Edit
-          </Button>
+          <Typography variant="h4">Edit a blog post</Typography>
         </Stack>
 
         <Stack mb={3} direction="column" alignItems="start" justifyContent="space-between">
@@ -107,47 +112,16 @@ export default function BlogDetail() {
         </Stack>
 
         <Stack mb={3}>
-          <Card>
-            <StyledCardMedia>
-              <StyledCover alt={blogDetail.title} src={blogDetail.image} />
-              <StyledPostInfo>
-                <StyledAvatar>
-                  <Avatar alt={user.displayName} src={user.photoUrl} />
-                  <CardHeader
-                    sx={{
-                      padding: 0,
-                      '& .MuiCardHeader-title': {
-                        color: 'HighlightText',
-                        fontWeight: 'normal',
-                      },
-                      '& .MuiCardHeader-subheader': {
-                        color: '#ffffffad',
-                      },
-                    }}
-                    title={user.displayName}
-                    subheader={blogDetail.createDate}
-                  />
-                </StyledAvatar>
-                <StyledTitle color="inherit" variant="h2">
-                  {blogDetail.title}
-                </StyledTitle>
-              </StyledPostInfo>
-            </StyledCardMedia>
-            <Stack padding={(theme: Theme) => theme.spacing(6)}>
-              <Markdown
-                className="markdown-body"
-                options={{
-                  wrapper: 'div',
-                  forceBlock: true,
-                  overrides: components,
-                }}
-              >
-                {blogDetail.content}
-              </Markdown>
-            </Stack>
-          </Card>
+          <MarkdownEditor name="content" />
+        </Stack>
+        <Stack mb={3}>
+          <StyledButtonContainer>
+            <Button variant="contained" startIcon={<Iconify icon="mingcute:save-fill" />}>
+              Save Changes
+            </Button>
+          </StyledButtonContainer>
         </Stack>
       </Container>
-    </>
+    </FormProvider>
   );
 }

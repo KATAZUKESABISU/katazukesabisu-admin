@@ -2,12 +2,12 @@ import { configureStore } from '@reduxjs/toolkit';
 
 // Custom store
 import { auth } from './auth';
-import { snackbar } from './snackbar';
+import { ui } from './ui';
 
 const store = configureStore({
   reducer: {
     auth,
-    snackbar,
+    ui,
   },
 });
 

@@ -1,11 +1,12 @@
 import React from 'react';
+import { useFormContext, Controller, FieldValues } from 'react-hook-form';
 
 // @mui
 import { styled, alpha, useTheme } from '@mui/material/styles';
-import { InputAdornment, OutlinedInput } from '@mui/material';
+import { InputAdornment, OutlinedInput, OutlinedInputProps } from '@mui/material';
 // components
-import { Iconify } from '../../../components/iconify';
-import { Theme } from '../../../interface';
+import { Iconify } from 'src/components/iconify';
+import { Theme } from 'src/interface';
 
 // ----------------------------------------------------------------------
 
@@ -30,25 +31,35 @@ const StyledSearch = styled(OutlinedInput)(({ theme }: { theme: Theme }) => ({
 
 // ----------------------------------------------------------------------
 
-interface BlogPost {
-  filterName?: string;
-  onFilterName?: () => void;
+interface BlogPost extends OutlinedInputProps {
+  name: string;
 }
 
-export default function BlogPostsSearch({ filterName = '', onFilterName = () => {} }: BlogPost) {
+export default function BlogPostsSearch({ name, ...other }: BlogPost) {
   const theme: Theme = useTheme();
+  const { control } = useFormContext();
 
   return (
-    <StyledSearch
-      theme={theme}
-      value={filterName}
-      onChange={onFilterName}
-      placeholder="Search post..."
-      startAdornment={
-        <InputAdornment position="start">
-          <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
-        </InputAdornment>
-      }
+    <Controller
+      name={name}
+      control={control}
+      render={({ field: { name, onBlur, onChange, ref, value } }) => (
+        <StyledSearch
+          {...other}
+          ref={ref}
+          name={name}
+          theme={theme}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          placeholder="Search post..."
+          startAdornment={
+            <InputAdornment position="start">
+              <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+            </InputAdornment>
+          }
+        />
+      )}
     />
   );
 }
