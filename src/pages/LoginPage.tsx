@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Helmet, HelmetData } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 // @mui

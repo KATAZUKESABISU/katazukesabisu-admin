@@ -1,12 +1,14 @@
 import React from 'react';
 
 // @mui
-import { styled } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 import { Link, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
 
 // utils
-import { fDate } from '../../../utils/formatTime';
-import SvgColor from '../../../components/utils/svg-icon/SvgColor';
+import { fDate } from 'src/utils/formatTime';
+import SvgColor from 'src/components/utils/svg-icon/SvgColor';
+import { useNavigate, useParams } from 'react-router-dom';
+import { URL_MAPPING } from 'src/routes/urlMapping';
 
 // ----------------------------------------------------------------------
 
@@ -43,16 +45,17 @@ const StyledCover = styled('img')({
 // ----------------------------------------------------------------------
 
 interface BlogItem {
+  id: string;
   cover: string;
   title: string;
-  view: number;
-  comment: number;
-  share: number;
   author: {
     name: string;
     avatarUrl: string;
   };
   createdAt: Date;
+  // view: number;
+  // comment: number;
+  // share: number;
 }
 
 interface BlogPostCardProps {
@@ -61,25 +64,22 @@ interface BlogPostCardProps {
 }
 
 export default function BlogPostCard({ post, index }: BlogPostCardProps) {
-  const { cover, title, author, createdAt } = post;
+  const { cover, title, author, createdAt, id } = post;
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
+  const navigate = useNavigate();
+
+  const handlePostClick = () => {
+    navigate(`${URL_MAPPING.BLOG_DETAIL}/${id}`);
+  };
 
   return (
     <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3} flexGrow={1}>
-      <Card sx={{ position: 'relative', height: '100%' }}>
+      <Card sx={{ position: 'relative', height: '100%' }} onClick={handlePostClick}>
         <StyledCardMedia
           sx={{
             ...((latestPostLarge || latestPost) && {
               pt: 'calc(100% * 4 / 3)',
-              '&:after': {
-                top: 0,
-                content: "''",
-                width: '100%',
-                height: '100%',
-                position: 'absolute',
-                // bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-              },
             }),
             ...(latestPostLarge && {
               pt: {
@@ -87,6 +87,14 @@ export default function BlogPostCard({ post, index }: BlogPostCardProps) {
                 sm: 'calc(100% * 3 / 4.66)',
               },
             }),
+            '&:after': {
+              top: 0,
+              content: "''",
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              bgcolor: (theme) => alpha(theme.palette.grey[900], 0.12),
+            },
           }}
         >
           <SvgColor

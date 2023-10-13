@@ -400,3 +400,5 @@ FodyWeavers.xsd
 .firebase/*
 .firebaserc
 firebase.json
+build/*
+.gitignore

@@ -84,7 +84,7 @@ export default function Navigation({ openNav, onCloseNav }: NavigationProps) {
       <NavSection data={navConfig} />
 
       <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <StyledCover src={'assets/illustrations/illustrations_nav_footer.svg'} />
+        <StyledCover src={'/assets/illustrations/illustrations_nav_footer.svg'} alt="Cover image" />
       </Box>
     </Scrollbar>
   );

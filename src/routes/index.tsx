@@ -32,8 +32,10 @@ export default function Router() {
     <Routes>
       <Route path={URL_MAPPING.ROOT} element={<ProtectRoutes />}>
         <Route path={URL_MAPPING.BLOG} element={<BlogPage />} />
+        <Route path={URL_MAPPING.BLOG_DETAIL + '/:id'} element={<BlogDetail />} />
+        <Route path={URL_MAPPING.BLOG_CREATE} element={<BlogDetail />} />
+        <Route path={URL_MAPPING.BLOG_EDIT} element={<BlogDetail />} />
         <Route path={URL_MAPPING.DASHBOARD} element={<DashboardAppPage />} />
-        <Route path={URL_MAPPING.BLOG_DETAIL} element={<BlogDetail />} />
         {/* <Route path="/home" element={<Home />} />
         <Route path={URL_MAPPING.FLOW_PAGE_URL} element={<FlowPage />} />
         <Route path={URL_MAPPING.CONTACT_PAGE_URL} element={<Contact />} />
