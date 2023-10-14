@@ -15,7 +15,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
 });
 
 function TransitionLeft(props: TransitionProps) {
-  return <Slide {...props} direction="right" />;
+  return <Slide {...props} direction="left" />;
 }
 
 export default function Snackbar() {

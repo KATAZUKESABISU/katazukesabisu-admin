@@ -11,13 +11,12 @@ import { Theme } from 'src/interface';
 // ----------------------------------------------------------------------
 
 const StyledSearch = styled(OutlinedInput)(({ theme }: { theme: Theme }) => ({
-  width: 240,
+  width: 430,
   transition: theme.transitions.create(['box-shadow', 'width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,
   }),
   '&.Mui-focused': {
-    width: 320,
     boxShadow: `0 8px 16px 0 ${alpha(theme.palette.grey[500], 0.16)}`,
     '& fieldset': {
       borderColor: `${theme.palette.primary.main} !important`,
@@ -26,6 +25,9 @@ const StyledSearch = styled(OutlinedInput)(({ theme }: { theme: Theme }) => ({
   '& fieldset': {
     borderWidth: `1px !important`,
     borderColor: `${alpha(theme.palette.grey[500], 0.32)} !important`,
+  },
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
   },
 }));
 

@@ -57,29 +57,10 @@ export default function ProtectRoutes() {
 
   return (
     <StyledRoot>
-      <Header
-        sx={{
-          ...(isLoading && {
-            paddingRight: '17px',
-          }),
-        }}
-        onOpenNav={() => setOpen(true)}
-      />
+      <Header onOpenNav={() => setOpen(true)} />
       <Nav openNav={open} onCloseNav={() => setOpen(false)} />
 
-      <Main
-        sx={(theme) => ({
-          ...(isLoading && {
-            position: 'relative',
-            overflow: 'hidden',
-            height: '100vh',
-            paddingRight: '17px',
-            [theme.breakpoints.up('lg')]: {
-              paddingRight: `calc(17px + ${theme.spacing(2)})`,
-            },
-          }),
-        })}
-      >
+      <Main>
         <Outlet />
         {isLoading && <Loading />}
       </Main>

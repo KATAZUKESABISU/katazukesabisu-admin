@@ -33,7 +33,7 @@ export default function MarkdownEditor({ name }: EditorProps) {
             toolbarsExclude={toolbarsExclude}
             theme={theme.palette.mode}
             onChange={onChange}
-            preview={false}
+            preview={true}
             // footers={[]}
           />
         )}

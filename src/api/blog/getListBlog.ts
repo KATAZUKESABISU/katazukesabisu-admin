@@ -7,19 +7,19 @@ export interface GetListBlogRequest {
   sortItem?: string;
   sortOrder?: 'asc' | 'desc';
   limit?: number;
+  published?: number;
 }
 
 export interface GetListBlogResponse extends AbstractResponse {
   data: ListBlog;
   currentPage: number;
   totalPage: number;
+  totalRecord: number;
 }
 
 export const getListBlog = async (args: GetListBlogRequest) => {
   const requestBody = new URLSearchParams(excludeInvalidValues(Object.entries(args))).toString();
-  const response = await get<GetListBlogResponse>('/public/list_blog?' + requestBody, {
-    Authorization: 'Basic YWRtaW46YWRtaW4xMjM0NTY3OA==',
-  });
+  const response = await get<GetListBlogResponse>('/api/blog?' + requestBody);
 
   if (response.statusCode !== 200) {
     throw response;

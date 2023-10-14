@@ -113,10 +113,10 @@ export default function BlogPostCard({ post, index }: BlogPostCardProps) {
           />
           <StyledAvatar alt={user.displayName} src={user.photoUrl} />
 
-          <StyledCover alt={title} src={image} onClick={handlePostClick} />
+          <StyledCover alt={title} src={image || '/assets/illustrations/fallback_img.svg'} onClick={handlePostClick} />
         </StyledCardMedia>
 
-        <CardContent sx={{ pt: 4 }}>
+        <CardContent sx={{ paddingBottom: '16px !important' }}>
           <Typography gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }}>
             {fDate(createDate)}
           </Typography>
@@ -137,7 +137,7 @@ export default function BlogPostCard({ post, index }: BlogPostCardProps) {
             ) : (
               <Chip
                 size="small"
-                sx={{ p: '4px' }}
+                sx={{ p: '4px', border: '1px solid #999' }}
                 className="default"
                 icon={<Iconify icon="material-symbols:unpublished" />}
                 label="Unpublished"
