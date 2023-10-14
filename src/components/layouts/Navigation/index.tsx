@@ -11,7 +11,6 @@ import { navConfig } from 'src/routes/urlMapping';
 import { Logo } from '../../logo';
 import NavSection from '../../nav-section/NavSection';
 import { useAppSelector } from 'src/store/hook';
-import SvgColor from 'src/components/utils/svg-icon/SvgColor';
 
 // ----------------------------------------------------------------------
 

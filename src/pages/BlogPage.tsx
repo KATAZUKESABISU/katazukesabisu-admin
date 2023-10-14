@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, KeyboardEvent, ChangeEvent } from 'react';
+import React, { useState, useEffect, KeyboardEvent, ChangeEvent } from 'react';
 import { Helmet, HelmetData } from 'react-helmet-async';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -24,10 +24,10 @@ import SelectControl from 'src/components/form-control/SelectControl';
 // ----------------------------------------------------------------------
 
 const helmetData = new HelmetData({});
-
+const LIMIT_OPTIONS = [15, 35, 55];
 const defaultSearch: GetListBlogRequest = {
   currentPage: 1,
-  limit: 5,
+  limit: 15,
 };
 
 const PUBLISH_OPTIONS = [
@@ -58,7 +58,7 @@ export default function BlogPage() {
   // ----------- State declare ----------------
   const [page, setPage] = useState(0);
   const [totalRecord, setTotalRecord] = useState(0);
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(LIMIT_OPTIONS[0]);
   const [listPost, setListPost] = useState<BlogItemProps[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -75,6 +75,7 @@ export default function BlogPage() {
   // ----------- API Call ---------------------
   useEffect(() => {
     fetchListBlog();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ----------- Function declare -------------
@@ -102,7 +103,12 @@ export default function BlogPage() {
       setLoading(true);
 
       const request = getValues('prevSearch');
-      const { data, currentPage, totalRecord } = await getListBlog({ ...request, currentPage: page });
+      const { data, currentPage, totalRecord } = await getListBlog({
+        ...request,
+        sortItem: 'published',
+        sortOrder: 'desc',
+        currentPage: page,
+      });
 
       if (data.content.length === 0) {
         setListPost([]);
@@ -198,7 +204,7 @@ export default function BlogPage() {
         >
           <TablePagination
             component={'div'}
-            rowsPerPageOptions={[5, 10, 15]}
+            rowsPerPageOptions={LIMIT_OPTIONS}
             page={page}
             rowsPerPage={limit}
             count={totalRecord}

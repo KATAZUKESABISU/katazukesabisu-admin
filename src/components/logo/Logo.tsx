@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { Box, Link, Typography } from '@mui/material';
+import { Box, Link, Typography, BoxProps } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-type LogoProps = {
-  sx?: object;
+interface LogoProps extends BoxProps {
   disabledLink?: boolean;
-};
+  fontSize?: string;
+}
 
-const Logo = ({ disabledLink = false, sx }: LogoProps) => {
+const Logo = ({ disabledLink = false, fontSize, sx }: LogoProps) => {
   const logo = (
     <Box
       component="img"
@@ -19,7 +19,6 @@ const Logo = ({ disabledLink = false, sx }: LogoProps) => {
         width: 40,
         height: 40,
         display: 'inline-flex',
-        ...sx,
       }}
     />
   );
@@ -30,13 +29,14 @@ const Logo = ({ disabledLink = false, sx }: LogoProps) => {
 
   return (
     <Link
-      sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px' }}
+      sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '8px', ...sx }}
       underline="none"
       to="/"
       component={RouterLink}
     >
       {logo}
-      <Typography variant="h5" sx={{ textTransform: 'uppercase' }}>
+
+      <Typography variant="h5" sx={{ textTransform: 'uppercase', fontSize }}>
         katazukesabisu
       </Typography>
     </Link>

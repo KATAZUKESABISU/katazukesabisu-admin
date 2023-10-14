@@ -11,6 +11,7 @@ const StyledLoading = styled(Box)({
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: alpha('#000', 0.2),
+  zIndex: 20001,
   '& img': {
     width: 'auto',
     height: '80px',

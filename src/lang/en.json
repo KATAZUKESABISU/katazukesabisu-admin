@@ -3,5 +3,7 @@
   "notice.apiFetch.noData": "The current query has no posts. Please make sure you have published items matching your query.",
   "error.blog.notFound": "The post you were looking for does not exist.",
   "error.reloadPage": "We're sorry, an error has occurred. Please reload this page and try again.",
+  "error.upload.image": "Sorry, your files couldn't be uploaded. The upload might be too large or the server might be experiencing high network traffic.",
+  "success.update": "Your information has been successfully updated.",
   "validate.required": "Please fill out this field."
 }

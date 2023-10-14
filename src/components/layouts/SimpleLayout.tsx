@@ -25,7 +25,7 @@ export default function SimpleLayout() {
   return (
     <>
       <StyledHeader>
-        <Logo />
+        <Logo sx={{ position: 'fixed', top: '24px', left: '20px' }} />
       </StyledHeader>
 
       <Outlet />

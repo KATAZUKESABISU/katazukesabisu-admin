@@ -1,25 +1,21 @@
-export interface BlogDetailData {
-  title: string;
-  createDate: string;
-  content: string;
-  image: string;
-  id: string;
-}
+import { BlogItemProps } from 'src/types/Blog';
 
 // Regex find description: ^(\w+.*)$
 // Regex find image: ^!\[.*\]\((.*)(?: ".*")\)|!\[.*\]\((.*)\)$
 
-const blogDetailDemo: BlogDetailData = {
+const blogDetailDemo: BlogItemProps = {
   id: 'blog-abcd',
   title: 'Markdown cheatsheet',
   createDate: '2023-10-05 22:53',
+  published: 1,
   image:
     'https://res.cloudinary.com/seekda/image/upload/w_1200,h_800,c_fill,f_auto,fl_lossy,q_auto/production/AT_UAB6-12-38-03/_66347854-3649-46D6-B415-CA3E66BDC92C.jpg',
   content: `![Peaceful landscape](https://res.cloudinary.com/seekda/image/upload/w_1200,h_800,c_fill,f_auto,fl_lossy,q_auto/production/AT_UAB6-12-38-03/_66347854-3649-46D6-B415-CA3E66BDC92C.jpg)`,
 };
 
-const blogDetail: BlogDetailData = {
+const blogDetail: BlogItemProps = {
   id: 'blog-abcd',
+  published: 1,
   title: 'Markdown cheatsheet',
   createDate: '2023-10-05 22:53',
   image:
@@ -786,7 +782,7 @@ const listBlog: ListBlog = {
 export interface ListBlog {
   title: string;
   createDate: string;
-  content: BlogDetailData[];
+  content: BlogItemProps[];
 }
 
 export { blogDetail, listBlog, blogDetailDemo };

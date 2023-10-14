@@ -75,14 +75,6 @@ export default function LoginPage() {
       </Helmet>
 
       <StyledRoot>
-        <Logo
-          sx={{
-            position: 'fixed',
-            top: { xs: 16, sm: 24, md: 40 },
-            left: { xs: 16, sm: 24, md: 40 },
-          }}
-        />
-
         {mdUp && (
           <StyledSection theme={theme}>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
@@ -94,6 +86,15 @@ export default function LoginPage() {
 
         <Container maxWidth="sm">
           <StyledContent>
+            <Logo
+              fontSize="2rem !important"
+              sx={{
+                gap: theme.spacing(2),
+                justifyContent: 'center',
+                marginBottom: theme.spacing(3),
+                color: 'CaptionText',
+              }}
+            />
             <Typography variant="h4" gutterBottom>
               Sign in
             </Typography>

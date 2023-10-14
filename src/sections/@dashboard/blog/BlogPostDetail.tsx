@@ -2,13 +2,11 @@ import React from 'react';
 
 // @mui
 import { styled, alpha } from '@mui/material/styles';
-import { Link, Card, Grid, Avatar, Typography, CardContent } from '@mui/material';
+import { Link, Card, Avatar, Typography, CardContent } from '@mui/material';
 
 // utils
 import { fDate } from 'src/utils/formatTime';
 import SvgColor from 'src/components/utils/svg-icon/SvgColor';
-import { useNavigate, useParams } from 'react-router-dom';
-import { URL_MAPPING } from 'src/routes/urlMapping';
 
 // ----------------------------------------------------------------------
 
@@ -53,9 +51,6 @@ interface BlogItem {
     avatarUrl: string;
   };
   createdAt: Date;
-  // view: number;
-  // comment: number;
-  // share: number;
 }
 
 interface BlogPostCardProps {
@@ -64,10 +59,9 @@ interface BlogPostCardProps {
 }
 
 export default function BlogPostDetail({ post, index }: BlogPostCardProps) {
-  const { cover, title, author, createdAt, id } = post;
+  const { cover, title, author, createdAt } = post;
   const latestPostLarge = index === 0;
   const latestPost = index === 1 || index === 2;
-  const navigate = useNavigate();
 
   return (
     <Card sx={{ position: 'relative' }}>
@@ -102,7 +96,6 @@ export default function BlogPostDetail({ post, index }: BlogPostCardProps) {
             bottom: -15,
             position: 'absolute',
             color: 'background.paper',
-            // ...((latestPostLarge || latestPost) && { display: 'none' }),
           }}
         />
         <StyledAvatar alt={author.name} src={author.avatarUrl} />

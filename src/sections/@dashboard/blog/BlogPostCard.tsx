@@ -117,7 +117,12 @@ export default function BlogPostCard({ post, index }: BlogPostCardProps) {
         </StyledCardMedia>
 
         <CardContent sx={{ paddingBottom: '16px !important' }}>
-          <Typography gutterBottom variant="caption" sx={{ color: 'text.disabled', display: 'block' }}>
+          <Typography
+            gutterBottom
+            variant="caption"
+            title={fDate(createDate, 'dd MMM yyyy, HH:mm')}
+            sx={{ color: 'text.disabled', display: 'block' }}
+          >
             {fDate(createDate)}
           </Typography>
 

@@ -10,8 +10,6 @@ import {
 import { Autocomplete, TextField, Chip } from '@mui/material';
 import { styled, alpha, Theme } from '@mui/material/styles';
 
-import { Iconify } from '../iconify';
-
 const StyledSearch = styled(Autocomplete)(({ theme }: { theme: Theme }) => ({
   width: 430,
   transition: theme.transitions.create(['box-shadow', 'width'], {

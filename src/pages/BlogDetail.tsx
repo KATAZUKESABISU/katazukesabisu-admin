@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet, HelmetData } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -14,13 +14,17 @@ import { Iconify } from 'src/components/iconify';
 import CollapsedBreadcrumbs, { BreadcrumbItem } from 'src/components/Breadcrumbs';
 
 // Redux
-import { useAppSelector } from 'src/store/hook';
+import { useAppDispatch, useAppSelector } from 'src/store/hook';
 import { RootState } from 'src/store';
 
 // Utils
 import { URL_MAPPING } from 'src/routes/urlMapping';
-import { blogDetail } from 'src/_mock/blog-details';
 import components from 'src/components/editor/OverrideHTML';
+import { getBlogById } from 'src/api/blog/getBlogById';
+import { endLoading, openSnackbar, startLoading } from 'src/store/ui';
+import { FormProvider, useForm } from 'react-hook-form';
+import { BlogItemProps } from 'src/types/Blog';
+import { fDate } from 'src/utils/formatTime';
 
 // ----------------------------------------------------------------------
 
@@ -79,17 +83,60 @@ const StyledPostInfo = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
+interface FormData {
+  blogContent?: BlogItemProps;
+}
+
 export default function BlogDetail() {
+  // ----------- React Hook -------------------
   const { user } = useAppSelector((state: RootState) => state.auth);
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
+  // ----------- State declare ----------------
+  const [loading, setLoading] = useState(false);
+
+  const formConfig = useForm<FormData>();
+  const { getValues, setValue } = formConfig;
+
+  // ----------- API Call ---------------------
+  useEffect(() => {
+    handleGetBlogInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  // ----------- Function declare -------------
   const handleEditButtonClick = () => {
     navigate(URL_MAPPING.BLOG_EDIT + '/' + id);
   };
 
+  const handleGetBlogInfo = async () => {
+    try {
+      if (!id || loading) {
+        return;
+      }
+
+      dispatch(startLoading());
+      setLoading(true);
+      const { data } = await getBlogById(id);
+
+      if (data) {
+        setValue('blogContent', data);
+        return;
+      }
+
+      setValue('blogContent', undefined);
+    } catch (e) {
+      dispatch(openSnackbar({ message: (e as Error).message, severity: 'error' }));
+    } finally {
+      dispatch(endLoading());
+      setLoading(false);
+    }
+  };
+
   return (
-    <>
+    <FormProvider {...formConfig}>
       <Helmet helmetData={helmetData}>
         <title>Dashboard: Blog Details | かたづけサービス</title>
       </Helmet>
@@ -107,47 +154,52 @@ export default function BlogDetail() {
         </Stack>
 
         <Stack mb={3}>
-          <Card>
-            <StyledCardMedia>
-              <StyledCover alt={blogDetail.title} src={blogDetail.image} />
-              <StyledPostInfo>
-                <StyledAvatar>
-                  <Avatar alt={user.displayName} src={user.photoUrl} />
-                  <CardHeader
-                    sx={{
-                      padding: 0,
-                      '& .MuiCardHeader-title': {
-                        color: 'HighlightText',
-                        fontWeight: 'normal',
-                      },
-                      '& .MuiCardHeader-subheader': {
-                        color: '#ffffffad',
-                      },
-                    }}
-                    title={user.displayName}
-                    subheader={blogDetail.createDate}
-                  />
-                </StyledAvatar>
-                <StyledTitle color="inherit" variant="h2">
-                  {blogDetail.title}
-                </StyledTitle>
-              </StyledPostInfo>
-            </StyledCardMedia>
-            <Stack padding={(theme: Theme) => theme.spacing(6)}>
-              <Markdown
-                className="markdown-body"
-                options={{
-                  wrapper: 'div',
-                  forceBlock: true,
-                  overrides: components,
-                }}
-              >
-                {blogDetail.content}
-              </Markdown>
-            </Stack>
-          </Card>
+          {getValues('blogContent') && (
+            <Card>
+              <StyledCardMedia>
+                <StyledCover
+                  alt={getValues('blogContent.title')}
+                  src={getValues('blogContent.image') || '/assets/illustrations/fallback_img.svg'}
+                />
+                <StyledPostInfo>
+                  <StyledAvatar>
+                    <Avatar alt={user.displayName} src={user.photoUrl} />
+                    <CardHeader
+                      sx={{
+                        padding: 0,
+                        '& .MuiCardHeader-title': {
+                          color: 'HighlightText',
+                          fontWeight: 'normal',
+                        },
+                        '& .MuiCardHeader-subheader': {
+                          color: '#ffffffad',
+                        },
+                      }}
+                      title={user.displayName}
+                      subheader={fDate(getValues('blogContent.createDate'))}
+                    />
+                  </StyledAvatar>
+                  <StyledTitle color="inherit" variant="h2">
+                    {getValues('blogContent')?.title}
+                  </StyledTitle>
+                </StyledPostInfo>
+              </StyledCardMedia>
+              <Stack padding={(theme: Theme) => theme.spacing(6)}>
+                <Markdown
+                  className="markdown-body"
+                  options={{
+                    wrapper: 'div',
+                    forceBlock: true,
+                    overrides: components,
+                  }}
+                >
+                  {getValues('blogContent.content')}
+                </Markdown>
+              </Stack>
+            </Card>
+          )}
         </Stack>
       </Container>
-    </>
+    </FormProvider>
   );
 }
