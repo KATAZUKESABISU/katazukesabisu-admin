@@ -1,5 +1,5 @@
 import React, { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as ReactLink } from 'react-router-dom';
 import { FieldValues, FormProvider, useForm, Resolver } from 'react-hook-form';
 
 // Validate
@@ -99,7 +99,7 @@ export default function LoginForm() {
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
           <CheckboxControl name="remember" options={LOGIN_OPTION} />
-          <Link variant="subtitle2" underline="hover">
+          <Link component={ReactLink} variant="subtitle2" underline="hover" to={URL_MAPPING.RESET_PASSWORD}>
             Forgot password?
           </Link>
         </Stack>

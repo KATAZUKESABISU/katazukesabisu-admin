@@ -13,6 +13,8 @@ export enum URL_MAPPING {
   MAINTAIN = '/maintain',
   PAGE_404 = '/not-found',
   LOGIN = '/login',
+  RESET_PASSWORD = '/reset-password',
+  NEW_PASSWORD = '/new-password',
 
   // Not implement yet
   HOME_PAGE_URL = '/home',

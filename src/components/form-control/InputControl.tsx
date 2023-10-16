@@ -8,6 +8,7 @@ import {
   FormControl,
   InputLabel,
   FormHelperText,
+  alpha,
 } from '@mui/material';
 
 import { Iconify } from '../iconify';
@@ -16,10 +17,11 @@ interface InputControlProps {
   label: string;
   name: string;
   initValue?: string;
-  type?: 'password' | 'text';
+  type?: string;
+  disabled?: boolean;
 }
 
-const InputControl = ({ label, name, initValue = '', type = 'text' }: InputControlProps) => {
+const InputControl = ({ label, name, initValue = '', type = 'text', disabled = false }: InputControlProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -37,17 +39,22 @@ const InputControl = ({ label, name, initValue = '', type = 'text' }: InputContr
 
   const renderInput = useCallback(
     ({ field }: { field: FieldValues }) => {
-      if (type === 'text') {
+      if (type !== 'password') {
         return (
           <TextField
             inputProps={{ ...field, 'aria-label': name }}
             error={Boolean(errors[name])}
-            sx={{
+            type={type}
+            sx={(theme) => ({
               '&>.Mui-error>input': { background: '#FFF2F7' },
               '&>.MuiFormHelperText-root': { fontSize: 'inherit' },
-            }}
+              '&>.Mui-disabled>fieldset': {
+                backgroundColor: alpha(theme.palette.text.primary, 0.12),
+              },
+            })}
             helperText={errors[name]?.message as string}
             label={label}
+            disabled={disabled}
           />
         );
       }
@@ -62,6 +69,7 @@ const InputControl = ({ label, name, initValue = '', type = 'text' }: InputContr
             type={showPassword ? 'text' : 'password'}
             error={Boolean(errors[name])}
             inputProps={{ ...field, 'aria-label': name }}
+            disabled={disabled}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">

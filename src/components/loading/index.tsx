@@ -18,7 +18,7 @@ const StyledLoading = styled(Box)({
   },
   '& .circleProgress': {
     position: 'absolute',
-    left: 7,
+    left: 0,
     right: 0,
     top: 'calc(50% - 25px)',
   },

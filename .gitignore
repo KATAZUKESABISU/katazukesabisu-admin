@@ -402,3 +402,4 @@ FodyWeavers.xsd
 firebase.json
 build/*
 .gitignore
+.evn

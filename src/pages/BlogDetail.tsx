@@ -35,21 +35,31 @@ const breadcrumbs: BreadcrumbItem[] = [
   { name: 'Blog Details', href: '' },
 ];
 
-const StyledCardMedia = styled('div')({
+const StyledCardMedia = styled('div')(({ theme }) => ({
   position: 'relative',
   height: '500px',
   '& img': {
     maxHeight: '500px',
   },
-});
+  [theme.breakpoints.down('sm')]: {
+    height: '240px',
+    '& img': {
+      maxHeight: '240px',
+    },
+  },
+}));
 
-const StyledTitle = styled(Typography)({
-  color: 'HighlightText',
+const StyledTitle = styled(Typography)(({ theme }) => ({
+  color: '#FFF',
   overflow: 'hidden',
   WebkitLineClamp: 3,
   display: '-webkit-box',
   WebkitBoxOrient: 'vertical',
-});
+
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '1.5rem',
+  },
+}));
 
 const StyledAvatar = styled('div')(({ theme }) => ({
   zIndex: 9,
@@ -61,6 +71,12 @@ const StyledAvatar = styled('div')(({ theme }) => ({
   display: 'flex',
   gap: theme.spacing(2),
   alignItems: 'center',
+
+  [theme.breakpoints.down('sm')]: {
+    left: theme.spacing(2),
+    bottom: theme.spacing(2),
+    gap: theme.spacing(2),
+  },
 }));
 
 const StyledCover = styled('img')({
@@ -79,6 +95,10 @@ const StyledPostInfo = styled('div')(({ theme }) => ({
   height: '100%',
   padding: theme.spacing(5),
   backgroundColor: alpha(theme.palette.grey[900], 0.45),
+
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(2),
+  },
 }));
 
 // ----------------------------------------------------------------------
@@ -168,7 +188,7 @@ export default function BlogDetail() {
                       sx={{
                         padding: 0,
                         '& .MuiCardHeader-title': {
-                          color: 'HighlightText',
+                          color: '#FFF',
                           fontWeight: 'normal',
                         },
                         '& .MuiCardHeader-subheader': {

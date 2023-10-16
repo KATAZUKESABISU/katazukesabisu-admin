@@ -17,9 +17,12 @@ import BlogCreatePage from '../pages/BlogCreatePage';
 import Page404 from '../pages/Page404';
 import LoginPage from '../pages/LoginPage';
 import DashboardAppPage from '../pages/DashboardApp';
+import ResetPassword from '../pages/ResetPassword';
+import NewPassword from '../pages/NewPassword';
+import MaintainPage from '../pages/MaintainPage';
+
+// Constanst
 import { URL_MAPPING } from './urlMapping';
-// import UserPage from './pages/UserPage';
-// import ProductsPage from './pages/ProductsPage';
 
 // ----------------------------------------------------------------------
 
@@ -46,10 +49,14 @@ export default function Router() {
         <Route path="/contact" element={<Contact />} /> */}
       </Route>
       <Route path={URL_MAPPING.LOGIN} element={<LoginPage />} />
+      <Route path={URL_MAPPING.RESET_PASSWORD} element={<ResetPassword />} />
+      <Route path={URL_MAPPING.NEW_PASSWORD} element={<NewPassword />} />
       <Route path={URL_MAPPING.ROOT} element={<SimpleLayout />}>
+        <Route path={URL_MAPPING.MAINTAIN} element={<MaintainPage />} />
         <Route path={URL_MAPPING.PAGE_404} element={<Page404 />} />
-        <Route path="/*" element={<Navigate to={URL_MAPPING.PAGE_404} />} />
       </Route>
+
+      <Route path="/*" element={<Navigate to={URL_MAPPING.PAGE_404} />} />
     </Routes>
   );
 }

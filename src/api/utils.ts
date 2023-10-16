@@ -58,6 +58,11 @@ async function request<T>(
     response = await fetch(url, { ...fetchOption, headers });
   }
 
+  // If mogoDB session timeout
+  if (response.status === 500) {
+    response = await fetch(url, { ...fetchOption, headers });
+  }
+
   const disposition = response.headers.get('Content-Disposition');
   if (disposition && disposition.indexOf('attachment') !== -1) {
     const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
