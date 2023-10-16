@@ -26,7 +26,7 @@ interface PostLoginResponse extends AbstractResponse {
 }
 
 const postLogin = async (user: UserResquest) => {
-  const response = await post<PostLoginResponse>('/api/login', user);
+  const response = await post<PostLoginResponse>('/api/login', 'admin', user);
   if (response.statusCode !== 200) {
     throw response;
   }

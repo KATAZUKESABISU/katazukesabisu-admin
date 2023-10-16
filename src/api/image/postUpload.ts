@@ -5,7 +5,7 @@ export interface UploadImageResponse extends AbstractResponse {
 }
 
 export const postUpload = async (args: FormData) => {
-  const response = await post<UploadImageResponse>('/api/upload', args, undefined, 'multipart/form-data');
+  const response = await post<UploadImageResponse>('/api/upload', 'admin', args, undefined, 'multipart/form-data');
 
   if (response.statusCode !== 200) {
     throw response;

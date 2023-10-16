@@ -18,6 +18,7 @@ import Page404 from '../pages/Page404';
 import LoginPage from '../pages/LoginPage';
 import DashboardAppPage from '../pages/DashboardApp';
 import { URL_MAPPING } from './urlMapping';
+import { HomeAdmin } from 'src/pages/HomeAdmin';
 // import UserPage from './pages/UserPage';
 // import ProductsPage from './pages/ProductsPage';
 
@@ -39,8 +40,8 @@ export default function Router() {
         <Route path={URL_MAPPING.BLOG_EDIT + '/:id'} element={<BlogEditPage />} />
         <Route path={URL_MAPPING.BLOG_CREATE} element={<BlogCreatePage />} />
         <Route path={URL_MAPPING.DASHBOARD} element={<DashboardAppPage />} />
-        {/* <Route path="/home" element={<Home />} />
-        <Route path={URL_MAPPING.FLOW_PAGE_URL} element={<FlowPage />} />
+        <Route path="/admin/home" element={<HomeAdmin />} />
+        {/* <Route path={URL_MAPPING.FLOW_PAGE_URL} element={<FlowPage />} />
         <Route path={URL_MAPPING.CONTACT_PAGE_URL} element={<Contact />} />
         <Route path="/blog-detail" element={<BlogDetail />} />
         <Route path="/contact" element={<Contact />} /> */}

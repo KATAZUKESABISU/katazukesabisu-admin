@@ -15,11 +15,11 @@ export enum URL_MAPPING {
   LOGIN = '/login',
 
   // Not implement yet
-  HOME_PAGE_URL = '/home',
-  ABOUT_US_PAGE_URL = '/about',
-  SERVICE_PAGE_URL = '/service',
-  FLOW_PAGE_URL = '/flow',
-  CONTACT_PAGE_URL = '/contact',
+  HOME_PAGE_URL = '/admin/home',
+  ABOUT_US_PAGE_URL = '/admin/about',
+  SERVICE_PAGE_URL = '/admin/service',
+  FLOW_PAGE_URL = '/admin/flow',
+  CONTACT_PAGE_URL = 'admin/contact',
 }
 
 // ----------------------------------------------------------------------

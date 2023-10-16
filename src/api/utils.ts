@@ -2,8 +2,12 @@ import { postToken } from './auth';
 
 const SERVER_BASE_URL = process.env.REACT_APP_API_SERVER_BASE_URL || '';
 
+const USER_NAME = process.env.REACT_APP_USER_NAME;
+const PASSWORD = process.env.REACT_APP_PASSWORD;
+
 interface Options {
   body?: unknown;
+  rule?: string;
   signal?: AbortSignal;
   contentType?: string;
   fileOpenKbn?: 'download' | 'open_new_tab';
@@ -24,6 +28,7 @@ async function request<T>(
   path: string,
   method: string,
   { body, contentType = 'application/json', header = {} }: Options = {},
+  rule = 'admin',
   fileOpenKbn = ''
 ): Promise<T> {
   const url = `${SERVER_BASE_URL}${path}`;
@@ -47,6 +52,10 @@ async function request<T>(
 
   if (body instanceof FormData) {
     fetchOption.body = body;
+  }
+
+  if (rule !== 'admin') {
+    headers['Authorization'] = `Basic ${btoa(USER_NAME + ':' + PASSWORD)}`;
   }
 
   let response = await fetch(url, { ...fetchOption, headers });
@@ -92,23 +101,35 @@ async function request<T>(
 
 export async function post<T>(
   path: string,
+  rule?: string,
   body?: unknown,
   signal?: AbortSignal,
   contentType?: string,
   fileOpenKbn?: 'download' | 'open_new_tab'
 ): Promise<T> {
-  return request(path, 'POST', { body, signal, contentType, fileOpenKbn });
+  return request(path, 'POST', { body, signal, contentType, fileOpenKbn }, rule);
 }
 
-export async function get<T>(path: string, headers: Record<string, string> = {}, signal?: AbortSignal): Promise<T> {
-  return request(path, 'GET', { signal, header: headers });
+export async function get<T>(
+  path: string,
+  rule?: string,
+  headers: Record<string, string> = {},
+  signal?: AbortSignal
+): Promise<T> {
+  return request(path, 'GET', { signal, header: headers }, rule);
 }
 
-export async function put<T>(path: string, body: unknown, signal?: AbortSignal, contentType?: string): Promise<T> {
-  return request(path, 'PUT', { body, signal, contentType });
+export async function put<T>(
+  path: string,
+  body: unknown,
+  rule?: string,
+  signal?: AbortSignal,
+  contentType?: string
+): Promise<T> {
+  return request(path, 'PUT', { body, signal, contentType }, rule);
 }
 
-export async function del<T>(path: string, signal?: AbortSignal): Promise<T> {
+export async function del<T>(path: string, rule?: string, signal?: AbortSignal): Promise<T> {
   return request(path, 'DELETE', { signal });
 }
 
