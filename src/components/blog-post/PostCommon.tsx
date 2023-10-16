@@ -38,9 +38,21 @@ const PostCommon = ({
 
     return (
       <ul className="pl-[2em]">
-        {items.map((item, index) => (
-          <li className={className} key={index} dangerouslySetInnerHTML={{ __html: item }} />
-        ))}
+        {items.map((item, index) =>
+          !isUpdate ? (
+            <li className={className} key={index} dangerouslySetInnerHTML={{ __html: item }} />
+          ) : (
+            <InputComponent
+              key={item + index}
+              id={`${id}-content-list-${index}`}
+              name={`${id}-content-list-${index}`}
+              onChange={(e: any) => {
+                console.log('getValues', e.target.value);
+              }}
+              defaultValue={item}
+            />
+          )
+        )}
       </ul>
     );
   };
@@ -98,8 +110,8 @@ const PostCommon = ({
             <span>{title}</span>
           ) : (
             <InputComponent
-              id="introduction"
-              name="introduction"
+              id={`${id}-content-title`}
+              name={`${id}-content-title`}
               onChange={(e: any) => {
                 console.log('getValues', e.target.value);
               }}
@@ -115,9 +127,19 @@ const PostCommon = ({
               return (
                 <React.Fragment key={index}>
                   {item.type === 'list' && renderListItem(item.data as ListContent)}
-                  {item.type === 'paragraph' && (
-                    <p dangerouslySetInnerHTML={{ __html: (item.data as ParagraphContent).text }} />
-                  )}
+                  {item.type === 'paragraph' &&
+                    (!isUpdate ? (
+                      <p dangerouslySetInnerHTML={{ __html: (item.data as ParagraphContent).text }} />
+                    ) : (
+                      <InputComponent
+                        id={`${id}-content-paragraph-${index}`}
+                        name={`${id}-content-paragraph-${index}`}
+                        onChange={(e: any) => {
+                          console.log('getValues', e.target.value);
+                        }}
+                        defaultValue={(item.data as ParagraphContent).text}
+                      />
+                    ))}
                   {item.type === 'header' && renderHeaderItem(item.data as HeaderContent)}
                   {item.type === 'button' && (item.data as JSX.Element)}
                 </React.Fragment>

@@ -17,9 +17,10 @@ export default function InputComponent({ onChange, defaultValue, id, name }: Inp
       {...register(name)}
       id={id}
       name={name}
-      label="Standard"
-      variant="standard"
-      sx={{ minWidth: '500px', backgroundColor: '#666' }}
+      error
+      label="Editing"
+      // variant="standard"
+      sx={{ minWidth: '500px', backgroundColor: '#00AB55', borderRadius: '3px solid red', margin: '20px 0' }}
       onChange={onChange}
       defaultValue={defaultValue}
       // value={value}

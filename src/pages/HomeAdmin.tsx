@@ -10,6 +10,10 @@ import { URL_MAPPING } from 'src/routes/urlMapping';
 import { getDataContactUs } from 'src/store/contactUs';
 import { Iconify } from 'src/components/iconify';
 import { useForm, FormProvider } from 'react-hook-form';
+import EditIcon from '@mui/icons-material/Edit';
+import CancelIcon from '@mui/icons-material/Cancel';
+import UpgradeIcon from '@mui/icons-material/Upgrade';
+import InputComponent from 'src/components/custom-input/InputComponent';
 
 interface Form {
   introduction: string;
@@ -38,7 +42,7 @@ export function HomeAdmin(): JSX.Element {
   };
 
   const handleEdit = () => {
-    setIsUpdate(true);
+    setIsUpdate(!isUpdate);
   };
 
   const handleUpdate = () => {
@@ -57,20 +61,24 @@ export function HomeAdmin(): JSX.Element {
         <Typography variant="h4" gutterBottom>
           Blog
         </Typography>
-        <Button variant="contained" onClick={() => handleEdit()} startIcon={<Iconify icon="eva:plus-fill" />}>
-          Edit
+        <Button variant="contained" onClick={() => handleEdit()} startIcon={!isUpdate ? <EditIcon /> : <CancelIcon />}>
+          {!isUpdate ? 'Edit' : 'Cancel'}
         </Button>
-        <Button variant="contained" onClick={() => handleUpdate()} startIcon={<Iconify icon="eva:plus-fill" />}>
+        <Button variant="contained" color="error" onClick={() => handleUpdate()} startIcon={<UpgradeIcon />}>
           Update
         </Button>
       </Stack>
       <Box className="p-[16px] lg:px-[60px] lg:w-[1024px] lg:py-[20px] w-[100%] bg-white mx-auto transition-[width] duration-500">
-        <h2 className="heading lg:!text-[230%]">{data?.heading}</h2>
+        {!isUpdate ? (
+          <h2 className="heading lg:!text-[230%]">{data?.heading}</h2>
+        ) : (
+          <InputComponent id="heading" name="heading" onChange={() => {}} defaultValue={data?.heading || ''} />
+        )}
 
         {data !== undefined && (
           <>
-            <PostCommon {...data?.homePage.introduction} isUpdate={isUpdate} />
-            <PostCommon {...data.homePage.serviceIntro} />
+            <PostCommon {...data?.homePage.introduction} isUpdate={isUpdate} id="post1" />
+            <PostCommon {...data.homePage.serviceIntro} isUpdate={isUpdate} id="post2" />
             {/* <ListService {...data?.homePage.serviceList} /> */}
             <ImageGallery {...data?.homePage.serviceGuide} />
             <ImageGallery {...data?.homePage.availableArea} />
