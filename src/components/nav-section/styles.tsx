@@ -6,8 +6,8 @@ import { ListItemIcon, ListItemButton, ListItemButtonProps } from '@mui/material
 // ----------------------------------------------------------------------
 
 type NavItemProps = {
-  component: React.ForwardRefExoticComponent<NavLinkProps & React.RefAttributes<HTMLAnchorElement>>;
-  to: string;
+  component?: React.ForwardRefExoticComponent<NavLinkProps & React.RefAttributes<HTMLAnchorElement>>;
+  to?: string;
 };
 
 export const StyledNavItem = styled((props: ListItemButtonProps & NavItemProps) => (

@@ -1,4 +1,5 @@
 import message from 'src/lang/en.json';
+import { addGlobalHeader } from '../utils';
 
 const SERVER_BASE_URL = process.env.REACT_APP_API_SERVER_BASE_URL || '';
 
@@ -48,6 +49,16 @@ const refreshToken = async (globalHeader: Map<string, string>) => {
   if (resp.statusCode !== 200) {
     throw resp;
   }
+
+  const { data } = resp;
+
+  if (remember) {
+    localStorage.setItem('token', data.token);
+  } else {
+    sessionStorage.setItem('token', data.token);
+  }
+
+  addGlobalHeader('Authorization', data.token);
 
   return resp;
 };

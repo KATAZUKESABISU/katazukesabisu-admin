@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, useRef } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover, useTheme } from '@mui/material';
 
 import { Theme } from 'src/interface';
@@ -6,9 +6,8 @@ import { Theme } from 'src/interface';
 // Redux
 import { logout } from 'src/store/auth';
 import { useAppSelector, useAppDispatch } from 'src/store/hook';
-import { openSnackbar } from 'src/store/snackbar';
+import { openSnackbar } from 'src/store/ui';
 import { AbstractResponse } from 'src/api/utils';
-import Loading from 'src/components/loading';
 
 // ----------------------------------------------------------------------
 

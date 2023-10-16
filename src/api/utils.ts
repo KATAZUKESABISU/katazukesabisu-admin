@@ -7,6 +7,7 @@ interface Options {
   signal?: AbortSignal;
   contentType?: string;
   fileOpenKbn?: 'download' | 'open_new_tab';
+  header?: Record<string, string>;
 }
 
 const globalHeader = new Map<string, string>();
@@ -22,7 +23,7 @@ export const removeGlobalHeader = (key: string): void => {
 async function request<T>(
   path: string,
   method: string,
-  { body, contentType = 'application/json' }: Options = {},
+  { body, contentType = 'application/json', header = {} }: Options = {},
   fileOpenKbn = ''
 ): Promise<T> {
   const url = `${SERVER_BASE_URL}${path}`;
@@ -33,6 +34,7 @@ async function request<T>(
   };
   const headers: Record<string, string> = {
     ...Object.fromEntries(globalHeader.entries()),
+    ...header,
   };
 
   if (contentType !== 'multipart/form-data') {
@@ -98,8 +100,8 @@ export async function post<T>(
   return request(path, 'POST', { body, signal, contentType, fileOpenKbn });
 }
 
-export async function get<T>(path: string, signal?: AbortSignal): Promise<T> {
-  return request(path, 'GET', { signal });
+export async function get<T>(path: string, headers: Record<string, string> = {}, signal?: AbortSignal): Promise<T> {
+  return request(path, 'GET', { signal, header: headers });
 }
 
 export async function put<T>(path: string, body: unknown, signal?: AbortSignal, contentType?: string): Promise<T> {

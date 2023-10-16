@@ -5,7 +5,8 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Slide, { SlideProps } from '@mui/material/Slide';
 
 import { useAppSelector, useAppDispatch } from 'src/store/hook';
-import { closeSnackbar } from 'src/store/snackbar';
+import { closeSnackbar } from 'src/store/ui';
+import { RootState } from 'src/store';
 
 type TransitionProps = Omit<SlideProps, 'direction'>;
 
@@ -14,12 +15,12 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
 });
 
 function TransitionLeft(props: TransitionProps) {
-  return <Slide {...props} direction="right" />;
+  return <Slide {...props} direction="left" />;
 }
 
 export default function Snackbar() {
   const dispatch = useAppDispatch();
-  const { isDisplay, message, severity } = useAppSelector((state) => state.snackbar);
+  const { isDisplay, message, severity } = useAppSelector((state: RootState) => state.ui.snackbar);
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
@@ -31,7 +32,13 @@ export default function Snackbar() {
 
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
-      <MuiSnackbar open={isDisplay} autoHideDuration={6000} TransitionComponent={TransitionLeft} onClose={handleClose}>
+      <MuiSnackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={isDisplay}
+        autoHideDuration={6000}
+        TransitionComponent={TransitionLeft}
+        onClose={handleClose}
+      >
         <Alert onClose={handleClose} severity={severity} sx={{ width: '100%', fontWeight: 'normal' }}>
           {message}
         </Alert>

@@ -1,19 +1,20 @@
 import React from 'react';
 
-import { Box } from '@mui/material';
+import { Box, BoxProps } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-type SvgColorProps = {
-  sx: object;
+interface SvgColorProps extends BoxProps {
+  sx?: object;
   src: string;
   color?: string;
-};
+}
 
-export default function SvgColor({ src, sx }: SvgColorProps): JSX.Element {
+export default function SvgColor({ src, sx = {}, ...other }: SvgColorProps): JSX.Element {
   return (
     <React.Fragment>
       <Box
+        {...other}
         component="span"
         sx={{
           width: 24,
