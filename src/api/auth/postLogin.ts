@@ -3,6 +3,7 @@ import { AbstractResponse, post } from '../utils';
 export interface UserResquest {
   username: string;
   password: string;
+  device: string;
 }
 
 export interface UserInformation {

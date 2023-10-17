@@ -3,6 +3,8 @@ import { addGlobalHeader, removeGlobalHeader } from 'src/api/utils';
 import { UserResquest, DataLogin, postLogin, postLogout } from 'src/api/auth';
 import { binaryToString, stringToBinary } from 'src/utils/formatNumber';
 import message from 'src/lang/en.json';
+import { getDeviceInfo } from 'src/utils';
+import { fDate } from 'src/utils/formatTime';
 
 export interface AuthState extends DataLogin {
   initialized: boolean;
@@ -31,9 +33,10 @@ const initialState: AuthState = {
 
 export const login = createAsyncThunk(
   'auth/login',
-  async ({ username, password, remember }: UserLoginProps, { rejectWithValue }) => {
+  async ({ username, password, remember }: Omit<UserLoginProps, 'device'>, { rejectWithValue }) => {
     try {
-      const response = await postLogin({ username, password });
+      const device = getDeviceInfo() + ' | ' + fDate(new Date(), 'dd MMM yyyy, HH:mm');
+      const response = await postLogin({ username, password, device });
 
       if (response.statusCode === 200) {
         return { ...response.data, remember };
