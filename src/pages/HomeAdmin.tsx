@@ -8,7 +8,6 @@ import { GetDataHomepageResponse, HomePageData, getHomePage } from 'src/api/home
 import { useAppDispatch, useAppSelector } from 'src/store/hook';
 import { URL_MAPPING } from 'src/routes/urlMapping';
 import { getDataContactUs } from 'src/store/contactUs';
-import { Iconify } from 'src/components/iconify';
 import { useForm, FormProvider } from 'react-hook-form';
 import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -17,6 +16,7 @@ import InputComponent from 'src/components/custom-input/InputComponent';
 
 interface Form {
   introduction: string;
+  heading: string;
 }
 
 export function HomeAdmin(): JSX.Element {
@@ -26,7 +26,7 @@ export function HomeAdmin(): JSX.Element {
   const [isUpdate, setIsUpdate] = useState(false);
   const contactUs = useAppSelector((state) => state.contactUs);
   const methods = useForm<Form>();
-  const { getValues } = methods;
+  const { getValues, watch } = methods;
 
   const getDataHomePage = async () => {
     try {
@@ -68,25 +68,45 @@ export function HomeAdmin(): JSX.Element {
           Update
         </Button>
       </Stack>
-      <Box className="p-[16px] lg:px-[60px] lg:w-[1024px] lg:py-[20px] w-[100%] bg-white mx-auto transition-[width] duration-500">
-        {!isUpdate ? (
-          <h2 className="heading lg:!text-[230%]">{data?.heading}</h2>
-        ) : (
-          <InputComponent id="heading" name="heading" onChange={() => {}} defaultValue={data?.heading || ''} />
-        )}
+      <div className="flex flex-row gap-5">
+        <Box className="p-[16px] lg:px-[60px] lg:w-[1024px] lg:py-[20px] w-[100%] bg-white mx-auto transition-[width] duration-500">
+          {!isUpdate ? (
+            <h2 className="heading lg:!text-[230%]">{data?.heading}</h2>
+          ) : (
+            <InputComponent id="heading" name="heading" defaultValue={data?.heading || ''} />
+          )}
 
-        {data !== undefined && (
-          <>
-            <PostCommon {...data?.homePage.introduction} isUpdate={isUpdate} id="post1" />
-            <PostCommon {...data.homePage.serviceIntro} isUpdate={isUpdate} id="post2" />
-            {/* <ListService {...data?.homePage.serviceList} /> */}
-            <ImageGallery {...data?.homePage.serviceGuide} />
-            <ImageGallery {...data?.homePage.availableArea} />
-            {contactUs !== undefined && <PostCommon {...contactUs.data} />}
-            {data?.homePage.coupons?.isDisplay && <Coupons {...data?.homePage.coupons} />}
-          </>
-        )}
-      </Box>
+          {data !== undefined && (
+            <>
+              <PostCommon {...data?.homePage.introduction} isUpdate={isUpdate} id="post1" />
+              <PostCommon {...data.homePage.serviceIntro} isUpdate={isUpdate} id="post2" />
+              {/* <ListService {...data?.homePage.serviceList} /> */}
+              <ImageGallery {...data?.homePage.serviceGuide} isUpdate={isUpdate} id="gallery1" width={100} />
+              <ImageGallery {...data?.homePage.availableArea} isUpdate={isUpdate} id="gallery2" width={100} />
+              {contactUs !== undefined && <PostCommon {...contactUs.data} />}
+              {data?.homePage.coupons?.isDisplay && <Coupons {...data?.homePage.coupons} />}
+            </>
+          )}
+        </Box>
+
+        <Box className="p-[16px] lg:px-[60px] lg:w-[1024px] lg:py-[20px] w-[80%] bg-white mx-auto transition-[width] duration-500">
+          <Typography className="heading lg:!text-[230%]" variant="h2">
+            {Object.keys(watch()).length > 0 ? watch('heading') : data?.heading}
+          </Typography>
+
+          {data !== undefined && (
+            <>
+              <PostCommon {...data?.homePage.introduction} id="post1" />
+              <PostCommon {...data.homePage.serviceIntro} id="post2" />
+              {/* <ListService {...data?.homePage.serviceList} /> */}
+              <ImageGallery {...data?.homePage.serviceGuide} id="gallery1" />
+              <ImageGallery {...data?.homePage.availableArea} id="gallery2" />
+              {contactUs !== undefined && <PostCommon {...contactUs.data} />}
+              {data?.homePage.coupons?.isDisplay && <Coupons {...data?.homePage.coupons} />}
+            </>
+          )}
+        </Box>
+      </div>
     </FormProvider>
   );
 }

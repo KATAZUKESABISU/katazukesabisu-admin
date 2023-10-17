@@ -6,6 +6,7 @@ import { fDateTime } from '../../utils/formatTime';
 
 import './style.css';
 import InputComponent from '../custom-input/InputComponent';
+import { useFormContext } from 'react-hook-form';
 
 const PostCommon = ({
   title,
@@ -20,6 +21,7 @@ const PostCommon = ({
 }: PostCommonProps): JSX.Element => {
   const [image, setImage] = useState<ImageContent>();
   const [isImgOnly, setIsImgOnly] = useState(false);
+  const { watch } = useFormContext();
 
   const renderListItem = (listData: ListContent) => {
     const { style, items } = listData;
@@ -46,9 +48,6 @@ const PostCommon = ({
               key={item + index}
               id={`${id}-content-list-${index}`}
               name={`${id}-content-list-${index}`}
-              onChange={(e: any) => {
-                console.log('getValues', e.target.value);
-              }}
               defaultValue={item}
             />
           )
@@ -75,7 +74,11 @@ const PostCommon = ({
       case 4:
       case 5:
       default:
-        return <h4 className={className}>{data.text}</h4>;
+        return !isUpdate ? (
+          <h4 className={className}>{watch(`${id}-content-header`) || data.text}</h4>
+        ) : (
+          <InputComponent id={`${id}-content-header`} name={`${id}-content-header`} defaultValue={data.text} />
+        );
     }
   };
 
@@ -100,23 +103,14 @@ const PostCommon = ({
     return <></>;
   }
 
-  console.log('content', content);
-
   return (
     <React.Fragment>
       {title && (
         <h2 className="heading --with-background" id={id}>
           {!isUpdate ? (
-            <span>{title}</span>
+            <span>{watch(`${id}-content-title`) || title}</span>
           ) : (
-            <InputComponent
-              id={`${id}-content-title`}
-              name={`${id}-content-title`}
-              onChange={(e: any) => {
-                console.log('getValues', e.target.value);
-              }}
-              defaultValue={title}
-            />
+            <InputComponent id={`${id}-content-title`} name={`${id}-content-title`} defaultValue={title} />
           )}
         </h2>
       )}
@@ -129,14 +123,15 @@ const PostCommon = ({
                   {item.type === 'list' && renderListItem(item.data as ListContent)}
                   {item.type === 'paragraph' &&
                     (!isUpdate ? (
-                      <p dangerouslySetInnerHTML={{ __html: (item.data as ParagraphContent).text }} />
+                      <p
+                        dangerouslySetInnerHTML={{
+                          __html: watch(`${id}-content-paragraph-${index}`) || (item.data as ParagraphContent).text,
+                        }}
+                      />
                     ) : (
                       <InputComponent
                         id={`${id}-content-paragraph-${index}`}
                         name={`${id}-content-paragraph-${index}`}
-                        onChange={(e: any) => {
-                          console.log('getValues', e.target.value);
-                        }}
                         defaultValue={(item.data as ParagraphContent).text}
                       />
                     ))}
@@ -148,9 +143,17 @@ const PostCommon = ({
             {button &&
               button.map((btn, index) => (
                 <React.Fragment key={index}>
-                  <Link className="btn --red w-[100%] md:w-[300px] mx-auto lg:m-0 !mt-[16px]" to={btn.location}>
-                    {btn.innerText}
-                  </Link>
+                  {!isUpdate ? (
+                    <Link className="btn --red w-[100%] md:w-[300px] mx-auto lg:m-0 !mt-[16px]" to={btn.location}>
+                      {watch(`${id}-content-button-${index}`) || btn.innerText}
+                    </Link>
+                  ) : (
+                    <InputComponent
+                      id={`${id}-content-button-${index}`}
+                      name={`${id}-content-button-${index}`}
+                      defaultValue={btn.innerText}
+                    />
+                  )}
                 </React.Fragment>
               ))}
           </div>

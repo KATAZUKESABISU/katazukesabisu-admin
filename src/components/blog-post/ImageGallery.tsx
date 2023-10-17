@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import './style.css';
 import { Location } from '../../interface/FlowType';
+import InputComponent from '../custom-input/InputComponent';
+import { useFormContext } from 'react-hook-form';
 
 export interface ImageItem {
   src: string;
@@ -18,9 +20,22 @@ export interface ImageGalleryProps {
   isLogo?: boolean;
   button?: Location[];
   content: ImageItem[];
+  isUpdate: boolean;
+  width: number;
 }
 
-const ImageGallery = ({ title, content, id, isLogo = false, style, button }: ImageGalleryProps): JSX.Element => {
+const ImageGallery = ({
+  title,
+  content,
+  id,
+  isLogo = false,
+  style,
+  button,
+  isUpdate = false,
+  width,
+}: ImageGalleryProps): JSX.Element => {
+  const { watch } = useFormContext();
+
   const containerClass = useMemo(() => {
     if (isLogo) {
       return 'image-gallery logo';
@@ -34,7 +49,11 @@ const ImageGallery = ({ title, content, id, isLogo = false, style, button }: Ima
     <React.Fragment>
       {title && (
         <h2 className="heading --with-background" id={id}>
-          <span>{title}</span>
+          {!isUpdate ? (
+            <span>{watch(`${id}-content-title`) || title}</span>
+          ) : (
+            <InputComponent id={`${id}-content-title`} name={`${id}-content-title`} defaultValue={title} />
+          )}
         </h2>
       )}
       <div className={containerClass}>
@@ -45,8 +64,28 @@ const ImageGallery = ({ title, content, id, isLogo = false, style, button }: Ima
               src={img.src}
               alt={img.alt}
             />
-            {img.subTitle && <h4>{img.subTitle}</h4>}
-            {img.caption && <figcaption>{img.caption}</figcaption>}
+            {img.subTitle &&
+              (!isUpdate ? (
+                <h4>{watch(`${id}-content-sub-title-${idx}`) || img.subTitle}</h4>
+              ) : (
+                <InputComponent
+                  id={`${id}-content-sub-title-${idx}`}
+                  name={`${id}-content-sub-title-${idx}`}
+                  defaultValue={img.subTitle}
+                  width={width}
+                />
+              ))}
+            {img.caption &&
+              (!isUpdate ? (
+                <figcaption>{watch(`${id}-content-caption-${idx}`) || img.caption}</figcaption>
+              ) : (
+                <InputComponent
+                  id={`${id}-content-caption-${idx}`}
+                  name={`${id}-content-caption-${idx}`}
+                  defaultValue={img.caption}
+                  width={width}
+                />
+              ))}
           </figure>
         ))}
       </div>
@@ -54,9 +93,18 @@ const ImageGallery = ({ title, content, id, isLogo = false, style, button }: Ima
         <div className="w-full mt-[16px] flex gap-[16px] justify-center items-center flex-wrap">
           {button.map((btn, index) => (
             <React.Fragment key={index}>
-              <Link className="btn --red w-[100%] md:w-fit !mt-0 !px-[36px] flex-grow-0" to={btn.location}>
-                {btn.innerText}
-              </Link>
+              {!isUpdate ? (
+                <Link className="btn --red w-[100%] md:w-fit !mt-0 !px-[36px] flex-grow-0" to={btn.location}>
+                  {watch(`${id}-content-button-${index}`) || btn.innerText}
+                </Link>
+              ) : (
+                <InputComponent
+                  id={`${id}-content-button-${index}`}
+                  name={`${id}-content-button-${index}`}
+                  defaultValue={btn.innerText}
+                  width={width}
+                />
+              )}
             </React.Fragment>
           ))}
         </div>
