@@ -3,7 +3,7 @@ import { Helmet, HelmetData } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
+import { Grid, Container, Typography, alpha } from '@mui/material';
 // components
 // import { Iconify } from '../components/iconify';
 // sections
@@ -33,9 +33,9 @@ export default function DashboardAppPage() {
       </Helmet>
 
       <Container maxWidth="xl">
-        <Typography variant="h4" sx={{ mb: 5 }}>
+        {/* <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
-        </Typography>
+        </Typography> */}
 
         <Grid container spacing={3}>
           {/* <Grid item xs={12} sm={6} md={3}>
@@ -58,6 +58,10 @@ export default function DashboardAppPage() {
             <AppWebsiteVisits
               title="Website Visits"
               subheader="(+43%) than last year"
+              sx={(theme) => ({
+                backgroundColor: alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.1 : 0.8),
+                backdropFilter: 'blur(135px)',
+              })}
               chartLabels={[
                 '01/01/2003',
                 '02/01/2003',
@@ -96,8 +100,12 @@ export default function DashboardAppPage() {
 
           <Grid item xs={12} md={6} lg={4}>
             <AppCurrentVisits
-              sx={{ height: '100%' }}
               title="Current Visits"
+              sx={(theme) => ({
+                backgroundColor: alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.1 : 0.8),
+                backdropFilter: 'blur(135px)',
+                height: '100%',
+              })}
               chartData={[
                 { label: 'America', value: 4344 },
                 { label: 'Asia', value: 5435 },
@@ -148,6 +156,10 @@ export default function DashboardAppPage() {
           <Grid item xs={12} md={6} lg={8}>
             <AppNewsUpdate
               title="News Update"
+              sx={(theme) => ({
+                backgroundColor: alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.1 : 0.8),
+                backdropFilter: 'blur(135px)',
+              })}
               list={[...Array(5)].map((_, index) => ({
                 id: faker.string.uuid(),
                 title: faker.person.jobTitle(),
@@ -161,6 +173,10 @@ export default function DashboardAppPage() {
           <Grid item xs={12} md={6} lg={4}>
             <AppOrderTimeline
               title="Order Timeline"
+              sx={(theme) => ({
+                backgroundColor: alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.1 : 0.8),
+                backdropFilter: 'blur(135px)',
+              })}
               list={[...Array(3)].map((_, index) => ({
                 id: faker.string.uuid(),
                 title: [
@@ -206,8 +222,12 @@ export default function DashboardAppPage() {
 
           <Grid item xs={12} md={6} lg={8}>
             <AppTasks
-              sx={{ height: '100%' }}
               title="Tasks"
+              sx={(theme) => ({
+                backgroundColor: alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.1 : 0.8),
+                backdropFilter: 'blur(135px)',
+                height: '100%',
+              })}
               list={[
                 { id: '1', label: 'Create FireStone Logo' },
                 { id: '2', label: 'Add SCSS and JS files if required' },

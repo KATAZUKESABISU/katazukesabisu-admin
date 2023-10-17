@@ -75,6 +75,8 @@ export default function LanguagePopover() {
             ml: 0.75,
             width: 220,
             boxShadow: theme.customShadows.dropdown,
+            backgroundColor: alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.1 : 0.8),
+            backdropFilter: 'blur(135px)',
             '& .MuiMenuItem-root': {
               pl: 2.5,
               pr: 2,

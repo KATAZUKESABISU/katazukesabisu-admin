@@ -1,6 +1,6 @@
 import React from 'react';
 // @mui
-import { Box, Stack, Link, Card, Button, Divider, Typography, CardHeader } from '@mui/material';
+import { Box, Stack, Link, Card, Button, Divider, CardProps, Typography, CardHeader } from '@mui/material';
 // utils
 import { fToNow } from '../../../utils/formatTime';
 // components
@@ -9,7 +9,7 @@ import Scrollbar from '../../../components/scrollbar';
 
 // ----------------------------------------------------------------------
 
-interface AppNewsProps {
+interface AppNewsProps extends CardProps {
   title?: string;
   subheader?: string;
   list: NewsItemProps[];

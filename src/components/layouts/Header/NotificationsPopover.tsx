@@ -92,6 +92,8 @@ export default function NotificationsPopover() {
             ml: 0.75,
             width: 360,
             boxShadow: theme.customShadows.dropdown,
+            backgroundColor: alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.1 : 0.8),
+            backdropFilter: 'blur(135px)',
           },
         }}
       >

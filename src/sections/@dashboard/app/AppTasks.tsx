@@ -123,7 +123,7 @@ function TaskItem({ task, checked, onChange }: TaskItemProps) {
       />
 
       <IconButton size="large" color="inherit" sx={{ opacity: 0.48 }} onClick={handleOpenMenu}>
-        <Iconify icon={'eva:more-vertical-fill'} />
+        <Iconify icon="eva:more-vertical-fill" />
       </IconButton>
 
       <Popover
@@ -144,24 +144,24 @@ function TaskItem({ task, checked, onChange }: TaskItemProps) {
         }}
       >
         <MenuItem onClick={handleMarkComplete}>
-          <Iconify icon={'eva:checkmark-circle-2-fill'} sx={{ mr: 2 }} />
+          <Iconify icon="eva:checkmark-circle-2-fill" sx={{ mr: 2 }} />
           Mark Complete
         </MenuItem>
 
         <MenuItem onClick={handleEdit}>
-          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
+          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Edit
         </MenuItem>
 
         <MenuItem onClick={handleShare}>
-          <Iconify icon={'eva:share-fill'} sx={{ mr: 2 }} />
+          <Iconify icon="eva:share-fill" sx={{ mr: 2 }} />
           Share
         </MenuItem>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>
-          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
         </MenuItem>
       </Popover>

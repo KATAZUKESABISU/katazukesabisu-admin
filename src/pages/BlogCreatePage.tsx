@@ -130,12 +130,12 @@ export default function BlogCreatePage() {
   return (
     <FormProvider {...formConfig}>
       <Helmet helmetData={helmetData}>
-        <title>Dashboard: Edit a blog post | かたづけサービス</title>
+        <title>Dashboard: Create a new blog | かたづけサービス</title>
       </Helmet>
 
       <Container maxWidth="xl">
         <Stack direction="row" alignItems="center" justifyItems="center" justifyContent="space-between" mb={1}>
-          <Typography variant="h4">Edit a blog post</Typography>
+          <Typography variant="h4">Create a new blog</Typography>
         </Stack>
 
         <Stack mb={5} direction="column" alignItems="start" justifyContent="space-between">

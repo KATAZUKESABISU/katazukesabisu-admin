@@ -36,6 +36,17 @@ const Main = styled('div')(({ theme }) => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
   },
+  '&::before': {
+    content: '""',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    background: 'center/cover no-repeat url("/assets/Trees sprouted.jpg")',
+    zIndex: '-1',
+    opacity: theme.palette.mode === 'dark' ? 0.5 : 1,
+  },
 }));
 
 // ----------------------------------------------------------------------

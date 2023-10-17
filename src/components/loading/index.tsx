@@ -12,24 +12,20 @@ const StyledLoading = styled(Box)({
   justifyContent: 'center',
   backgroundColor: alpha('#000', 0.2),
   zIndex: 20001,
-  '& img': {
-    width: 'auto',
-    height: '80px',
-  },
-  '& .circleProgress': {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 'calc(50% - 25px)',
-  },
 });
 
-const Loading = () => {
+interface LoadingProps {
+  fullWidth?: boolean;
+}
+
+const Loading = ({ fullWidth = false }: LoadingProps) => {
   return (
     <StyledLoading
       sx={(theme) => ({
         [theme.breakpoints.up('lg')]: {
-          width: `calc(100% - 280px)`,
+          ...(!fullWidth && {
+            width: `calc(100% - 280px)`,
+          }),
         },
       })}
     >

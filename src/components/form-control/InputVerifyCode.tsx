@@ -1,6 +1,6 @@
-import React, { ChangeEvent, KeyboardEvent } from 'react';
-import { useFormContext, Controller, FieldValues } from 'react-hook-form';
-import { FormGroup, alpha, styled, TextField, Typography, Box } from '@mui/material';
+import React, { KeyboardEvent } from 'react';
+import { useFormContext, Controller } from 'react-hook-form';
+import { FormGroup, styled, TextField, Typography, Box } from '@mui/material';
 
 interface InputVerifyCodeProps {
   name: string;
@@ -43,7 +43,7 @@ const InputVerifyCode = ({ name, label, size }: InputVerifyCodeProps) => {
     <React.Fragment>
       <FormGroup>
         <Typography variant="body1">{label}</Typography>
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box sx={{ width: '100%', gap: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           {[...Array(size)].map((_, idx) => (
             <React.Fragment key={idx}>
               <Controller

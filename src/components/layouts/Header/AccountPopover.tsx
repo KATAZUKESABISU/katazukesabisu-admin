@@ -1,5 +1,5 @@
 import React, { useState, MouseEvent } from 'react';
-import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover, useTheme } from '@mui/material';
+import { alpha, Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover, useTheme } from '@mui/material';
 
 import { Theme } from 'src/interface';
 
@@ -86,6 +86,8 @@ export default function AccountPopover() {
             ml: 0.75,
             width: 220,
             boxShadow: theme.customShadows.dropdown,
+            backgroundColor: alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.1 : 0.8),
+            backdropFilter: 'blur(135px)',
             '& .MuiMenuItem-root': {
               typography: 'typography.body2',
               borderRadius: 0.75,

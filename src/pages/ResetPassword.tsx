@@ -8,8 +8,8 @@ import { FormProvider, useForm, Resolver } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 // @mui
-import { styled } from '@mui/material/styles';
-import { Container, Typography, Stack, Box, Link } from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
+import { Typography, Stack, Box, Link, Paper } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 // components
@@ -26,7 +26,6 @@ import { URL_MAPPING } from 'src/routes/urlMapping';
 
 // Message
 import message from 'src/lang/en.json';
-import { AbstractResponse } from 'src/api/utils';
 
 // ----------------------------------------------------------------------
 
@@ -34,6 +33,33 @@ const StyledForm = styled('form')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex',
   },
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    background: 'center/cover no-repeat url("/assets/Trees sprouted.jpg")',
+    zIndex: '-1',
+    backgroundBlendMode: 'difference',
+    opacity: theme.palette.mode === 'dark' ? 0.5 : 1,
+  },
+  display: 'flex',
+  height: '100%',
+}));
+
+const StyledContainer = styled(Paper)(({ theme }) => ({
+  margin: 'auto',
+  backgroundImage: 'none',
+  overflow: 'hidden',
+  position: 'relative',
+  borderRadius: '16px',
+  zIndex: 0,
+  padding: '40px 24px',
+  maxWidth: '420px',
+  backgroundColor: alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.1 : 0.8),
+  backdropFilter: 'blur(135px)',
 }));
 
 const StyledImage = styled('img')(() => ({
@@ -41,14 +67,12 @@ const StyledImage = styled('img')(() => ({
   height: '96px',
 }));
 
-const StyledContent = styled('div')(({ theme }) => ({
+const StyledContent = styled('div')(() => ({
   maxWidth: 480,
   margin: 'auto',
-  minHeight: '100vh',
   display: 'flex',
   justifyContent: 'center',
   flexDirection: 'column',
-  padding: theme.spacing(12, 0),
 }));
 
 // ----------------------------------------------------------------------
@@ -110,7 +134,7 @@ export default function ResetPassword() {
         return;
       }
 
-      dispatch(openSnackbar({ message: (e as AbstractResponse).message, severity: 'error' }));
+      dispatch(openSnackbar({ message: (e as Error).message, severity: 'error' }));
     } finally {
       setLoading(false);
     }
@@ -124,10 +148,10 @@ export default function ResetPassword() {
 
       <StyledForm onSubmit={handleSubmit}>
         <FormProvider {...formConfig}>
-          <Container maxWidth="sm">
+          <StyledContainer>
             <StyledContent>
               <Stack mb={3} justifyContent="center" alignItems="center">
-                <StyledImage src="/assets/icons/ic_password.svg" alt="login" />
+                <StyledImage src="/assets/icons/ic_password.svg" alt="login"></StyledImage>
               </Stack>
 
               <Stack mb={5} justifyContent="center" alignItems="center">
@@ -161,7 +185,7 @@ export default function ResetPassword() {
                 </Box>
               </Stack>
             </StyledContent>
-          </Container>
+          </StyledContainer>
         </FormProvider>
       </StyledForm>
     </React.Fragment>

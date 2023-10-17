@@ -1,5 +1,6 @@
 import message from 'src/lang/en.json';
 import { addGlobalHeader } from '../utils';
+import { binaryToString } from 'src/utils/formatNumber';
 
 const SERVER_BASE_URL = process.env.REACT_APP_API_SERVER_BASE_URL || '';
 
@@ -25,7 +26,7 @@ const refreshToken = async (globalHeader: Map<string, string>) => {
 
   const requestBody = {
     refreshToken,
-    userId: JSON.parse(atob(user)).id,
+    userId: JSON.parse(binaryToString(user)).id,
   };
 
   const response = await fetch(SERVER_BASE_URL + '/api/token', {

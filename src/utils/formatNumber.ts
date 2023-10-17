@@ -35,3 +35,13 @@ function result(format: string, key = '.00') {
 
   return isInteger ? format.replace(key, '') : format;
 }
+
+export const stringToBinary = (data: string) => {
+  const result = data.split('').map((char) => char.charCodeAt(0).toString(2));
+  return result.join(' ');
+};
+
+export const binaryToString = (data: string) => {
+  const result = data.split(' ').map((char) => String.fromCharCode(parseInt(char, 2)));
+  return result.join('');
+};

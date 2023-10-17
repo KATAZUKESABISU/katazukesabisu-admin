@@ -83,7 +83,12 @@ export default function LoginForm() {
         return;
       }
 
-      dispatch(openSnackbar({ message: (e as AbstractResponse).message, severity: 'error' }));
+      if ((e as AbstractResponse).statusCode === 400 || (e as AbstractResponse).statusCode === 404) {
+        dispatch(openSnackbar({ message: message['error.login.fail'], severity: 'error' }));
+        return;
+      }
+
+      dispatch(openSnackbar({ message: (e as Error).message, severity: 'error' }));
     } finally {
       setLoading(false);
     }

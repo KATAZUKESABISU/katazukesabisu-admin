@@ -63,7 +63,6 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
 
 const StyledAvatar = styled('div')(({ theme }) => ({
   zIndex: 9,
-  width: 32,
   height: 32,
   position: 'absolute',
   left: theme.spacing(5),
