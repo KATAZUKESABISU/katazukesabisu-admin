@@ -56,6 +56,7 @@ const StyledPublish = styled('div')({
   },
   '& .MuiChip-root.MuiChip-filled.default': {
     backgroundColor: '#DFE3E8',
+    color: '#000',
   },
 });
 
@@ -88,16 +89,16 @@ export default function BlogPostCard({ post, index }: BlogPostCardProps) {
     <Grid item xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3} flexGrow={1}>
       <Card sx={{ position: 'relative', height: '100%' }}>
         <StyledCardMedia
-          sx={{
+          sx={(theme) => ({
             '&:after': {
               top: 0,
               content: "''",
               width: '100%',
               height: '100%',
               position: 'absolute',
-              bgcolor: (theme) => alpha(theme.palette.grey[900], 0.12),
+              bgcolor: theme.palette.mode === 'dark' ? alpha('#fff', 0.12) : alpha(theme.palette.grey[900], 0.12),
             },
-          }}
+          })}
         >
           <SvgColor
             color="paper"

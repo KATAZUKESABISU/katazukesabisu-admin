@@ -160,7 +160,22 @@ export default function BlogDetail() {
         <title>Dashboard: Blog Details | かたづけサービス</title>
       </Helmet>
 
-      <Container maxWidth="xl">
+      <Container
+        sx={(theme) => ({
+          ...(theme.palette.mode === 'light' && {
+            backgroundColor: alpha(theme.palette.background.paper, 0.8),
+            backdropFilter: 'blur(20px)',
+            borderRadius: '16px',
+            py: theme.spacing(3),
+
+            [theme.breakpoints.down('lg')]: {
+              mx: theme.spacing(3),
+              maxWidth: `calc(100% - ${theme.spacing(6)})`,
+            },
+          }),
+        })}
+        maxWidth="xl"
+      >
         <Stack direction="row" alignItems="center" justifyItems="center" justifyContent="space-between" mb={1}>
           <Typography variant="h4">Blog Details</Typography>
           <Button onClick={handleEditButtonClick} variant="contained" startIcon={<Iconify icon="bxs:edit" />}>
@@ -172,9 +187,14 @@ export default function BlogDetail() {
           <CollapsedBreadcrumbs navigationData={breadcrumbs} />
         </Stack>
 
-        <Stack mb={3}>
+        <Stack>
           {getValues('blogContent') && (
-            <Card>
+            <Card
+              sx={(theme) => ({
+                backgroundColor: alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.1 : 0.8),
+                backdropFilter: 'blur(20px)',
+              })}
+            >
               <StyledCardMedia>
                 <StyledCover
                   alt={getValues('blogContent.title')}
@@ -203,7 +223,17 @@ export default function BlogDetail() {
                   </StyledTitle>
                 </StyledPostInfo>
               </StyledCardMedia>
-              <Stack padding={(theme: Theme) => theme.spacing(6)}>
+              <Stack
+                padding={(theme: Theme) => theme.spacing(6)}
+                sx={(theme) => ({
+                  img: {
+                    opacity: theme.palette.mode === 'dark' ? 0.7 : 1,
+                  },
+                  '.markdown-body table tr:nth-of-type(2n)': {
+                    backgroundColor: alpha(theme.palette.divider, 0.5),
+                  },
+                })}
+              >
                 <Markdown
                   className="markdown-body"
                   options={{

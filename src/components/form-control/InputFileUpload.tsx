@@ -15,7 +15,7 @@ const StyledImage = styled('img')({
   backgroundPosition: 'center center',
 });
 
-const StyledContainer = styled(Box)({
+const StyledContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
   display: 'flex',
   justifyContent: 'center',
@@ -26,7 +26,14 @@ const StyledContainer = styled(Box)({
   cursor: 'pointer',
   gap: '2rem',
   height: '400px',
-});
+  [theme.breakpoints.down('sm')]: {
+    height: '200px',
+    gap: '1rem',
+    'img.svg-icon': {
+      height: '80px',
+    },
+  },
+}));
 
 interface InputFileUploadProps {
   name: string;
@@ -81,7 +88,7 @@ const InputFileUpload = ({ name, label, url }: InputFileUploadProps) => {
           )}
         />
 
-        <img src="/assets/illustrations/upload.svg" alt="Upload your image" />
+        <img className="svg-icon" src="/assets/illustrations/upload.svg" alt="Upload your image" />
 
         {isDragActive ? (
           <Box

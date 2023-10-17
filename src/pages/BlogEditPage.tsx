@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 
 // @mui
-import { styled } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 import { Button, Container, Stack, Typography } from '@mui/material';
 
 // components
@@ -167,7 +167,22 @@ export default function BlogEditPage() {
         <title>Dashboard: Edit a blog post | かたづけサービス</title>
       </Helmet>
 
-      <Container maxWidth="xl">
+      <Container
+        maxWidth="xl"
+        sx={(theme) => ({
+          ...(theme.palette.mode === 'light' && {
+            backgroundColor: alpha(theme.palette.background.paper, 0.8),
+            backdropFilter: 'blur(20px)',
+            borderRadius: '16px',
+            py: theme.spacing(3),
+
+            [theme.breakpoints.down('lg')]: {
+              mx: theme.spacing(3),
+              maxWidth: `calc(100% - ${theme.spacing(6)})`,
+            },
+          }),
+        })}
+      >
         <Stack direction="row" alignItems="center" justifyItems="center" justifyContent="space-between" mb={1}>
           <Typography variant="h4">Edit a blog post</Typography>
         </Stack>
@@ -185,7 +200,7 @@ export default function BlogEditPage() {
         <Stack mb={3}>
           <MarkdownEditor name="content" />
         </Stack>
-        <Stack mb={3}>
+        <Stack>
           <StyledButtonContainer>
             <Button variant="outlined" onClick={handleDiscardChange}>
               Cancel

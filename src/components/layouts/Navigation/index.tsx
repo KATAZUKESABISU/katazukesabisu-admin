@@ -142,11 +142,7 @@ export default function Navigation({ openNav, onCloseNav }: NavigationProps) {
             keepMounted: true,
           }}
           PaperProps={{
-            sx: {
-              width: NAV_WIDTH,
-              backgroundColor: 'transparent',
-              backdropFilter: 'blur(135px)',
-            },
+            sx: { width: NAV_WIDTH },
           }}
         >
           {renderContent}

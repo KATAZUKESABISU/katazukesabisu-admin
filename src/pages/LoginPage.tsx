@@ -3,12 +3,11 @@ import { Helmet, HelmetData } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 // @mui
 import { styled, useTheme, alpha } from '@mui/material/styles';
-import { Container, Typography, Divider, Stack, Button, Box, Paper } from '@mui/material';
+import { Typography, Divider, Stack, Button, Box, Paper } from '@mui/material';
 // hooks
 import useResponsive from '../hook/useResponsive';
 import { useAppSelector, useAppDispatch } from 'src/store/hook';
 // components
-import { Logo } from '../components/logo';
 import { Iconify } from '../components/iconify';
 // sections
 import { LoginForm } from '../sections/auth/login';
@@ -33,7 +32,6 @@ const StyledContainer = styled(Box)(({ theme }) => ({
     height: '100vh',
     background: 'center/cover no-repeat url("/assets/Trees sprouted.jpg")',
     zIndex: '-1',
-    backgroundBlendMode: 'difference',
     opacity: theme.palette.mode === 'dark' ? 0.5 : 1,
   },
   [theme.breakpoints.down('md')]: {

@@ -7,6 +7,7 @@
   "error.login.fail": "The username and password you entered did not match our records. Please double-check and try again.",
   "success.update": "Your information has been successfully updated.",
   "success.resetPassword.sendEmail": "Request sent successfully. Please check your email!",
+  "success.resetPassword.update": "Your password has been changed successfully.",
   "validate.required": "Please fill out this field.",
   "validate.password.mismatch": "The password confirmation does not match.",
   "validate.code.mismatch": "The verification code does not match our record.",

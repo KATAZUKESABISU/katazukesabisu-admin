@@ -171,6 +171,7 @@ export default function NewPassword() {
         code: code.join(''),
       });
 
+      dispatch(openSnackbar({ message: message['success.resetPassword.update'], severity: 'success' }));
       navigate(URL_MAPPING.LOGIN);
     } catch (e) {
       if (e instanceof ValidationError) {

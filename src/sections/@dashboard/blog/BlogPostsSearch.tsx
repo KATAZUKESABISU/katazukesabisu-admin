@@ -16,6 +16,7 @@ const StyledSearch = styled(OutlinedInput)(({ theme }: { theme: Theme }) => ({
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter,
   }),
+  backdropFilter: theme.palette.mode === 'dark' ? 'blur(20px)' : 'unset',
   '&.Mui-focused': {
     boxShadow: `0 8px 16px 0 ${alpha(theme.palette.grey[500], 0.16)}`,
     '& fieldset': {

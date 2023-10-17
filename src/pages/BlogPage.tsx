@@ -159,7 +159,22 @@ export default function BlogPage() {
         <title>Dashboard: Blog | かたづけサービス</title>
       </Helmet>
 
-      <Container maxWidth="xl">
+      <Container
+        maxWidth="xl"
+        sx={(theme) => ({
+          ...(theme.palette.mode === 'light' && {
+            backgroundColor: alpha(theme.palette.background.paper, 0.8),
+            backdropFilter: 'blur(135px)',
+            borderRadius: '16px',
+            py: theme.spacing(3),
+
+            [theme.breakpoints.down('lg')]: {
+              mx: theme.spacing(3),
+              maxWidth: `calc(100% - ${theme.spacing(6)})`,
+            },
+          }),
+        })}
+      >
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Blog
@@ -201,6 +216,7 @@ export default function BlogPage() {
           position="relative"
           bgcolor={(theme) => alpha(theme.palette.primary.main, 0.08)}
           borderRadius="8px"
+          overflow="hidden"
         >
           <TablePagination
             component={'div'}
@@ -211,6 +227,7 @@ export default function BlogPage() {
             onPageChange={handleChangePage}
             labelRowsPerPage="Blogs per page:"
             onRowsPerPageChange={handleLimitChange}
+            sx={{ backdropFilter: 'blur(10px)' }}
           />
           {loading && <StyledLoading />}
         </Stack>

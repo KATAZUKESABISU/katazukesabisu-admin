@@ -64,6 +64,7 @@ const SelectControl = ({ label, name, initValue = '', options = [] }: SelectCont
       return (
         <StyledSearch
           multiple
+          sx={(theme) => ({ backdropFilter: theme.palette.mode === 'dark' ? 'blur(20px)' : 'unset' })}
           options={options}
           getOptionLabel={(option) => (option as Option).label}
           onChange={(event: SyntheticEvent<Element, Event>, newValue: unknown) => {

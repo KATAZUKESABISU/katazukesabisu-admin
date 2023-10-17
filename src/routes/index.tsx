@@ -23,6 +23,7 @@ import MaintainPage from '../pages/MaintainPage';
 
 // Constanst
 import { URL_MAPPING } from './urlMapping';
+import { openSnackbar } from 'src/store/ui';
 
 // ----------------------------------------------------------------------
 
@@ -30,7 +31,16 @@ export default function Router() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(loadToken());
+    try {
+      dispatch(loadToken());
+    } catch (e) {
+      dispatch(
+        openSnackbar({
+          message: (e as Error).message,
+          severity: 'error',
+        })
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

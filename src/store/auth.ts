@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { addGlobalHeader, removeGlobalHeader } from 'src/api/utils';
 import { UserResquest, DataLogin, postLogin, postLogout } from 'src/api/auth';
 import { binaryToString, stringToBinary } from 'src/utils/formatNumber';
+import message from 'src/lang/en.json';
 
 export interface AuthState extends DataLogin {
   initialized: boolean;
@@ -63,30 +64,37 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     loadToken(state) {
-      let refreshToken: string | null;
-      let token: string | null;
-      let user: string | null;
-      const remember = localStorage.getItem('remember');
+      try {
+        let refreshToken: string | null;
+        let token: string | null;
+        let user: string | null;
+        const remember = localStorage.getItem('remember');
 
-      if (remember) {
-        refreshToken = localStorage.getItem('refreshToken');
-        token = localStorage.getItem('token');
-        user = localStorage.getItem('user');
-      } else {
-        refreshToken = sessionStorage.getItem('refreshToken');
-        token = sessionStorage.getItem('token');
-        user = sessionStorage.getItem('user');
-      }
+        if (remember) {
+          refreshToken = localStorage.getItem('refreshToken');
+          token = localStorage.getItem('token');
+          user = localStorage.getItem('user');
+        } else {
+          refreshToken = sessionStorage.getItem('refreshToken');
+          token = sessionStorage.getItem('token');
+          user = sessionStorage.getItem('user');
+        }
 
-      if (user) {
-        state.user = JSON.parse(binaryToString(user));
-      }
+        if (user) {
+          state.user = JSON.parse(binaryToString(user));
+        }
 
-      state.token = token || '';
-      state.refreshToken = refreshToken || '';
-      state.initialized = true;
-      if (token) {
-        addGlobalHeader('Authorization', 'Bearer ' + token || '');
+        state.token = token || '';
+        state.refreshToken = refreshToken || '';
+        state.initialized = true;
+        if (token) {
+          addGlobalHeader('Authorization', 'Bearer ' + token || '');
+        }
+      } catch (e) {
+        // Token invalid
+        localStorage.clear();
+        sessionStorage.clear();
+        throw new Error(message['error.reloadPage']);
       }
     },
   },
