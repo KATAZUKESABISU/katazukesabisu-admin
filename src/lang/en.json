@@ -1,15 +1,17 @@
 {
-  "notice.maintain": "This feature is under maintenance. Please try again later.",
+  "notice.maintain": "We are currently working hard on this feature. Please try again later.",
   "notice.apiFetch.noData": "The current query has no posts. Please make sure you have published items matching your query.",
   "error.blog.notFound": "The post you were looking for does not exist.",
   "error.reloadPage": "We're sorry, an error has occurred. Please reload this page and try again.",
   "error.upload.image": "Sorry, your files couldn't be uploaded. The upload might be too large or the server might be experiencing high network traffic.",
   "error.login.fail": "The username and password you entered did not match our records. Please double-check and try again.",
   "success.update": "Your information has been successfully updated.",
+  "success.delete": "Your blog has been deleted successfully.",
   "success.resetPassword.sendEmail": "Request sent successfully. Please check your email!",
   "success.resetPassword.update": "Your password has been changed successfully.",
   "validate.required": "Please fill out this field.",
   "validate.password.mismatch": "The password confirmation does not match.",
   "validate.code.mismatch": "The verification code does not match our record.",
-  "validate.email": "Please enter a valid Email address."
+  "validate.email": "Please enter a valid Email address.",
+  "message.welcome": "Marketing, sales, and service software that helps your business grow without compromise. Because \"good for the business\" should also mean \"good for the customer.\""
 }

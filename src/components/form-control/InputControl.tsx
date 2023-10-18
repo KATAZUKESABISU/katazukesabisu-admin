@@ -46,7 +46,7 @@ const InputControl = ({ label, name, initValue = '', type = 'text', disabled = f
             error={Boolean(errors[name])}
             type={type}
             sx={(theme) => ({
-              '&>.Mui-error>input': { background: '#FFF2F7' },
+              '&>.Mui-error>input': { background: alpha('#FFF2F721', theme.palette.mode === 'dark' ? 0.12 : 0.8) },
               '&>.MuiFormHelperText-root': { fontSize: 'inherit' },
               '&>.Mui-disabled>fieldset': {
                 backgroundColor: alpha(theme.palette.text.primary, 0.12),
@@ -65,7 +65,11 @@ const InputControl = ({ label, name, initValue = '', type = 'text', disabled = f
           <OutlinedInput
             name={name}
             label={label}
-            sx={{ '&.Mui-error': { background: '#FFF2F7' } }}
+            sx={(theme) => ({
+              '&.Mui-error': {
+                background: alpha('#FFF2F721', theme.palette.mode === 'dark' ? 0.12 : 0.8),
+              },
+            })}
             type={showPassword ? 'text' : 'password'}
             error={Boolean(errors[name])}
             inputProps={{ ...field, 'aria-label': name }}

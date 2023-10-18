@@ -1,30 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet, HelmetData } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
+import { FormProvider, useForm } from 'react-hook-form';
 
 // Markdown
 import Markdown from 'markdown-to-jsx';
 
 // @mui
 import { styled, alpha, Theme } from '@mui/material/styles';
-import { Button, Container, Stack, Typography, Avatar, Card, CardHeader } from '@mui/material';
+import { Button, Container, Stack, Typography, Avatar, Card, CardHeader, Box } from '@mui/material';
 
 // components
 import { Iconify } from 'src/components/iconify';
 import CollapsedBreadcrumbs, { BreadcrumbItem } from 'src/components/Breadcrumbs';
+import components from 'src/components/editor/OverrideHTML';
+import DialogConfirmDelete from 'src/components/dialog/DialogConfirmDelete';
 
 // Redux
 import { useAppDispatch, useAppSelector } from 'src/store/hook';
 import { RootState } from 'src/store';
+import { endLoading, openSnackbar, startLoading } from 'src/store/ui';
+
+// API
+import { getBlogById } from 'src/api/blog/getBlogById';
+import { postDeleteBlog } from 'src/api/blog/postDeleteBlog';
 
 // Utils
-import { URL_MAPPING } from 'src/routes/urlMapping';
-import components from 'src/components/editor/OverrideHTML';
-import { getBlogById } from 'src/api/blog/getBlogById';
-import { endLoading, openSnackbar, startLoading } from 'src/store/ui';
-import { FormProvider, useForm } from 'react-hook-form';
-import { BlogItemProps } from 'src/types/Blog';
 import { fDate } from 'src/utils/formatTime';
+import { URL_MAPPING } from 'src/routes/urlMapping';
+import { BlogItemProps } from 'src/types/Blog';
+
+// Message
+import message from 'src/lang/en.json';
 
 // ----------------------------------------------------------------------
 
@@ -115,6 +122,7 @@ export default function BlogDetail() {
 
   // ----------- State declare ----------------
   const [loading, setLoading] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const formConfig = useForm<FormData>();
   const { getValues, setValue } = formConfig;
@@ -154,6 +162,27 @@ export default function BlogDetail() {
     }
   };
 
+  const handleDeleteButtonClick = async () => {
+    try {
+      if (!id || loading) {
+        return;
+      }
+      setOpenModal(false);
+      dispatch(startLoading());
+      setLoading(true);
+
+      await postDeleteBlog(id);
+
+      dispatch(openSnackbar({ message: message['success.delete'], severity: 'success' }));
+      navigate(URL_MAPPING.BLOG);
+    } catch (e) {
+      dispatch(openSnackbar({ message: (e as Error).message, severity: 'error' }));
+    } finally {
+      dispatch(endLoading());
+      setLoading(false);
+    }
+  };
+
   return (
     <FormProvider {...formConfig}>
       <Helmet helmetData={helmetData}>
@@ -161,6 +190,7 @@ export default function BlogDetail() {
       </Helmet>
 
       <Container
+        maxWidth="xl"
         sx={(theme) => ({
           ...(theme.palette.mode === 'light' && {
             backgroundColor: alpha(theme.palette.background.paper, 0.8),
@@ -174,13 +204,54 @@ export default function BlogDetail() {
             },
           }),
         })}
-        maxWidth="xl"
       >
-        <Stack direction="row" alignItems="center" justifyItems="center" justifyContent="space-between" mb={1}>
+        <Stack
+          sx={(theme) => ({
+            flexDirection: 'row',
+            [theme.breakpoints.down('sm')]: {
+              flexDirection: 'column',
+              gap: theme.spacing(2),
+              alignItems: 'start',
+            },
+          })}
+          alignItems="center"
+          justifyItems="center"
+          justifyContent="space-between"
+          mb={1}
+        >
           <Typography variant="h4">Blog Details</Typography>
-          <Button onClick={handleEditButtonClick} variant="contained" startIcon={<Iconify icon="bxs:edit" />}>
-            Edit
-          </Button>
+          <Box
+            display="flex"
+            gap={(theme) => theme.spacing(2)}
+            sx={(theme) => ({
+              flexDirection: 'row',
+              [theme.breakpoints.down('sm')]: {
+                flexDirection: 'column-reverse',
+                width: '100%',
+                '.MuiButtonBase-root.MuiButton-root': {
+                  width: '100%',
+                },
+              },
+            })}
+          >
+            <Button
+              sx={{ width: '156px' }}
+              onClick={() => setOpenModal(true)}
+              variant="outlined"
+              color="error"
+              startIcon={<Iconify icon="material-symbols:delete-outline" />}
+            >
+              Delete
+            </Button>
+            <Button
+              sx={{ width: '156px' }}
+              onClick={handleEditButtonClick}
+              variant="contained"
+              startIcon={<Iconify icon="bxs:edit" />}
+            >
+              Edit
+            </Button>
+          </Box>
         </Stack>
 
         <Stack mb={3} direction="column" alignItems="start" justifyContent="space-between">
@@ -193,6 +264,11 @@ export default function BlogDetail() {
               sx={(theme) => ({
                 backgroundColor: alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.1 : 0.8),
                 backdropFilter: 'blur(20px)',
+                m: theme.palette.mode === 'dark' ? 'unset' : '0 -24px -24px',
+                borderRadius: theme.palette.mode === 'dark' ? '12px' : 'unset',
+                [theme.breakpoints.down('sm')]: {
+                  m: theme.palette.mode === 'dark' ? 'unset' : '0 -16px -24px',
+                },
               })}
             >
               <StyledCardMedia>
@@ -232,6 +308,10 @@ export default function BlogDetail() {
                   '.markdown-body table tr:nth-of-type(2n)': {
                     backgroundColor: alpha(theme.palette.divider, 0.5),
                   },
+                  padding: theme.spacing(6),
+                  [theme.breakpoints.down('sm')]: {
+                    padding: theme.spacing(2),
+                  },
                 })}
               >
                 <Markdown
@@ -249,6 +329,11 @@ export default function BlogDetail() {
           )}
         </Stack>
       </Container>
+      <DialogConfirmDelete
+        isOpen={openModal}
+        handleClose={() => setOpenModal(false)}
+        handleConfirm={handleDeleteButtonClick}
+      />
     </FormProvider>
   );
 }

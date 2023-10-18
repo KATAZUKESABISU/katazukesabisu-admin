@@ -16,6 +16,7 @@ import { URL_MAPPING } from 'src/routes/urlMapping';
 // Message
 import message from 'src/lang/en.json';
 import { openSnackbar } from 'src/store/ui';
+import LazyImage from 'src/components/LazyImage';
 
 // ----------------------------------------------------------------------
 
@@ -140,7 +141,7 @@ export default function LoginPage() {
               <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
                 Hi, Welcome Back
               </Typography>
-              <img src="/assets/illustrations/illustration_dashboard.png" alt="login" />
+              <LazyImage src="/assets/illustrations/illustration_dashboard.png" alt="login" />
             </StyledContent>
           </StyledForm>
         )}

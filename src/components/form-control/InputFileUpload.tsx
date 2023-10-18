@@ -4,6 +4,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 // Mui
 import { Box, Typography, alpha, styled, useTheme } from '@mui/material';
+import LazyImage from '../LazyImage';
 
 const StyledImage = styled('img')({
   position: 'absolute',
@@ -88,7 +89,7 @@ const InputFileUpload = ({ name, label, url }: InputFileUploadProps) => {
           )}
         />
 
-        <img className="svg-icon" src="/assets/illustrations/upload.svg" alt="Upload your image" />
+        <LazyImage className="svg-icon" src="/assets/illustrations/upload.svg" alt="Upload your image" />
 
         {isDragActive ? (
           <Box
