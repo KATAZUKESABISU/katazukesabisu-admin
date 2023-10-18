@@ -10,13 +10,13 @@ interface HomePage {
   serviceList: ImageGallery;
   serviceGuide: ImageGalleryProps;
   availableArea: ImageGalleryProps;
-  coupons: CouponProps;
+  coupons?: CouponProps;
 }
 
-export type HomePageData = {
+export interface HomePageData {
   heading: string;
   homePage: HomePage;
-};
+}
 
 export interface GetDataHomepageResponse extends AbstractResponse {
   data: HomePageData;

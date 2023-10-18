@@ -20,8 +20,9 @@ export interface ImageGalleryProps {
   isLogo?: boolean;
   button?: Location[];
   content: ImageItem[];
-  isUpdate: boolean;
-  width: number;
+  isUpdate?: boolean;
+  width?: number;
+  isDisplay?: boolean;
 }
 
 const ImageGallery = ({
@@ -50,15 +51,15 @@ const ImageGallery = ({
       {title && (
         <h2 className="heading --with-background" id={id}>
           {!isUpdate ? (
-            <span>{watch(`${id}-content-title`) || title}</span>
+            <span>{watch(`homePage.${id}.title`) || title}</span>
           ) : (
-            <InputComponent id={`${id}-content-title`} name={`${id}-content-title`} defaultValue={title} />
+            <InputComponent id={`homePage.${id}.title`} name={`homePage.${id}.title`} defaultValue={title} />
           )}
         </h2>
       )}
       <div className={containerClass}>
-        {content.map((img, idx) => (
-          <figure key={idx} className={!isLogo ? 'max-h-[500px]' : ''}>
+        {content.map((img, index) => (
+          <figure key={index} className={!isLogo ? 'max-h-[500px]' : ''}>
             <img
               className={!isLogo ? 'img-map max-h-[500px] h-[230px] object-cover' : ''}
               src={img.src}
@@ -66,22 +67,22 @@ const ImageGallery = ({
             />
             {img.subTitle &&
               (!isUpdate ? (
-                <h4>{watch(`${id}-content-sub-title-${idx}`) || img.subTitle}</h4>
+                <h4>{watch(`homePage.${id}.content.${index}.subTitle`) || img.subTitle}</h4>
               ) : (
                 <InputComponent
-                  id={`${id}-content-sub-title-${idx}`}
-                  name={`${id}-content-sub-title-${idx}`}
+                  id={`homePage.${id}.content.${index}.subTitle`}
+                  name={`homePage.${id}.content.${index}.subTitle`}
                   defaultValue={img.subTitle}
                   width={width}
                 />
               ))}
             {img.caption &&
               (!isUpdate ? (
-                <figcaption>{watch(`${id}-content-caption-${idx}`) || img.caption}</figcaption>
+                <figcaption>{watch(`homePage.${id}.content.${index}.caption`) || img.caption}</figcaption>
               ) : (
                 <InputComponent
-                  id={`${id}-content-caption-${idx}`}
-                  name={`${id}-content-caption-${idx}`}
+                  id={`homePage.${id}.content.${index}.caption`}
+                  name={`homePage.${id}.content.${index}.caption`}
                   defaultValue={img.caption}
                   width={width}
                 />
@@ -95,12 +96,12 @@ const ImageGallery = ({
             <React.Fragment key={index}>
               {!isUpdate ? (
                 <Link className="btn --red w-[100%] md:w-fit !mt-0 !px-[36px] flex-grow-0" to={btn.location}>
-                  {watch(`${id}-content-button-${index}`) || btn.innerText}
+                  {watch(`homePage.${id}.button.${index}.innerText`) || btn.innerText}
                 </Link>
               ) : (
                 <InputComponent
-                  id={`${id}-content-button-${index}`}
-                  name={`${id}-content-button-${index}`}
+                  id={`homePage.${id}.button.${index}.innerText`}
+                  name={`homePage.${id}.button.${index}.innerText`}
                   defaultValue={btn.innerText}
                   width={width}
                 />

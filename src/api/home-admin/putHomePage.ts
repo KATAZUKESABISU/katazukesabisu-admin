@@ -10,7 +10,7 @@ interface HomePage {
   serviceList: ImageGallery;
   serviceGuide: ImageGalleryProps;
   availableArea: ImageGalleryProps;
-  coupons: CouponProps;
+  coupons?: CouponProps;
 }
 
 export type HomePageData = {

@@ -56,10 +56,10 @@ const PostCommon = ({
     );
   };
 
-  const renderHeaderItem = (data: HeaderContent): JSX.Element => {
+  const renderHeaderItem = (data: HeaderContent, index: number): JSX.Element => {
     let className = '';
 
-    if (data.withBacground) {
+    if (data.withBackground) {
       className += 'with-background';
     }
 
@@ -75,9 +75,13 @@ const PostCommon = ({
       case 5:
       default:
         return !isUpdate ? (
-          <h4 className={className}>{watch(`${id}-content-header`) || data.text}</h4>
+          <h4 className={className}>{watch(`homePage.${id}.content.${index}.data.text`) || data.text}</h4>
         ) : (
-          <InputComponent id={`${id}-content-header`} name={`${id}-content-header`} defaultValue={data.text} />
+          <InputComponent
+            id={`homePage.${id}.content.${index}.data.text`}
+            name={`homePage.${id}.content.${index}.data.text`}
+            defaultValue={data.text}
+          />
         );
     }
   };
@@ -108,9 +112,10 @@ const PostCommon = ({
       {title && (
         <h2 className="heading --with-background" id={id}>
           {!isUpdate ? (
-            <span>{watch(`${id}-content-title`) || title}</span>
+            <span>{watch(`homePage.${id}.title`) || title}</span>
           ) : (
-            <InputComponent id={`${id}-content-title`} name={`${id}-content-title`} defaultValue={title} />
+            // <InputComponent id={`${id}-content-title`} name={`${id}-content-title`} defaultValue={title} />
+            <InputComponent id={`homePage.${id}.title`} name={`homePage.${id}.title`} defaultValue={title} />
           )}
         </h2>
       )}
@@ -125,17 +130,18 @@ const PostCommon = ({
                     (!isUpdate ? (
                       <p
                         dangerouslySetInnerHTML={{
-                          __html: watch(`${id}-content-paragraph-${index}`) || (item.data as ParagraphContent).text,
+                          __html:
+                            watch(`homePage.${id}.content.${index}.data.text`) || (item.data as ParagraphContent).text,
                         }}
                       />
                     ) : (
                       <InputComponent
-                        id={`${id}-content-paragraph-${index}`}
-                        name={`${id}-content-paragraph-${index}`}
+                        id={`homePage.${id}.content.${index}.data.text`}
+                        name={`homePage.${id}.content.${index}.data.text`}
                         defaultValue={(item.data as ParagraphContent).text}
                       />
                     ))}
-                  {item.type === 'header' && renderHeaderItem(item.data as HeaderContent)}
+                  {item.type === 'header' && renderHeaderItem(item.data as HeaderContent, index)}
                   {item.type === 'button' && (item.data as JSX.Element)}
                 </React.Fragment>
               );
@@ -145,12 +151,12 @@ const PostCommon = ({
                 <React.Fragment key={index}>
                   {!isUpdate ? (
                     <Link className="btn --red w-[100%] md:w-[300px] mx-auto lg:m-0 !mt-[16px]" to={btn.location}>
-                      {watch(`${id}-content-button-${index}`) || btn.innerText}
+                      {watch(`homePage.${id}.button.${index}.innerText`) || btn.innerText}
                     </Link>
                   ) : (
                     <InputComponent
-                      id={`${id}-content-button-${index}`}
-                      name={`${id}-content-button-${index}`}
+                      id={`homePage.${id}.button.${index}.innerText`}
+                      name={`homePage.${id}.button.${index}.innerText`}
                       defaultValue={btn.innerText}
                     />
                   )}

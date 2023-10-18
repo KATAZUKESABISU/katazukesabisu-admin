@@ -10,6 +10,7 @@ export interface ServiceItem {
 
 export interface ImageGalleryProps {
   title: string;
+  isDisplay?: boolean;
   content: ServiceItem[];
 }
 

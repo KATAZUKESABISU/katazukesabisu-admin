@@ -37,7 +37,7 @@ export type ParagraphContent = {
 
 export type HeaderContent = {
   text: string;
-  withBacground?: boolean;
+  withBackground?: boolean;
   level: 1 | 2 | 3 | 4 | 5;
 };
 
